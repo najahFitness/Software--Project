@@ -1,4 +1,4 @@
-Feature: General Login and Role-based Redirection
+Feature: General Login and Role-Based Redirection
 
   Scenario: Successful login as Admin
     Given the user is on the login page
@@ -22,3 +22,8 @@ Feature: General Login and Role-based Redirection
     Given the user is on the login page
     When the user enters invalid credentials
     Then an error message should be displayed indicating incorrect login details
+
+  Scenario: Unsuccessful login due to missing credentials
+    Given the user is on the login page
+    When the user does not fill in the required login fields
+    Then an error message should be displayed indicating that credentials are missing
