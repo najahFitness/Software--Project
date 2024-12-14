@@ -1,4 +1,4 @@
-package fts;
+/*package fts;
 
 public class A_Inventory_Financial_and_System_Settings {
 
@@ -50,3 +50,4 @@ public class A_Inventory_Financial_and_System_Settings {
     }
 
 }
+*/
