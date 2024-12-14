@@ -20,7 +20,6 @@ public class A_Schedule_and_Reports_Management {
     }
 
 
-
     @When("Admin navigates to the Reports section")
     public void adminNavigatesToTheReportsSection() {
         // Write code here that turns the phrase above into concrete actions

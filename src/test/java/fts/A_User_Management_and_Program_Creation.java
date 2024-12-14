@@ -38,7 +38,6 @@ public class A_User_Management_and_Program_Creation {
     }
 
 
-
     @When("Admin navigates to the Program Management section")
     public void adminNavigatesToTheProgramManagementSection() {
         // Write code here that turns the phrase above into concrete actions

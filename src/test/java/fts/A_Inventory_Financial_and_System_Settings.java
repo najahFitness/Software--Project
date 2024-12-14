@@ -3,6 +3,7 @@ package fts;
 public class A_Inventory_Financial_and_System_Settings {
 
 
+
     @Given("Admin logs in to the system")
     public void adminLogsInToTheSystem() {
         // Write code here that turns the phrase above into concrete actions
