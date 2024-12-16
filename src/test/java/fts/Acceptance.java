@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 
-        features = "usecase/SinUp_fromAdmin.feature",
+        features = "usecase/Updatefromadmin.feature",
         plugin = {"summary","html:target/cucumber/report.html"},
         monochrome = true,
         snippets = CucumberOptions.SnippetType.CAMELCASE ,
