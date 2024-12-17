@@ -1,5 +1,7 @@
 /*package fts;
 
+import io.cucumber.java.en.*;
+
 public class A_User_Management_and_Program_Creation {
 
 
@@ -26,28 +28,7 @@ public class A_User_Management_and_Program_Creation {
     }
 
 
-    @When("Admin navigates to the Client Management section")
-    public void adminNavigatesToTheClientManagementSection() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-    @Then("Admin can assign clients to specific instructors")
-    public void adminCanAssignClientsToSpecificInstructors() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
 
-
-    @When("Admin navigates to the Program Management section")
-    public void adminNavigatesToTheProgramManagementSection() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-    @Then("Admin can create new training and diet plans for clients")
-    public void adminCanCreateNewTrainingAndDietPlansForClients() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
 
 
 }

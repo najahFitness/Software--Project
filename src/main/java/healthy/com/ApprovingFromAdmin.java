@@ -24,7 +24,7 @@ public class ApprovingFromAdmin {
         String approvingDataLine = name + ":" + phoneNumber + ":" + yearsOfExperience + ":" + jobDescription;
         approvingData.add(approvingDataLine);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/test/resources/ApprovingInstructor.txt", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/test/resources/programs.txt", true))) {
             // إضافة السجل إلى الملف
             for (String updatedLine : approvingData) {
                 bw.write(updatedLine);
@@ -35,7 +35,6 @@ public class ApprovingFromAdmin {
         } catch (IOException e) {
             // طباعة معلومات الخطأ في حال حدوث استثناء أثناء الكتابة
             setStatus("unacceptable");
-            System.err.println("Error writing to file: " + e.getMessage());
             e.printStackTrace();
         }
 

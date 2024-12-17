@@ -13,4 +13,4 @@ Feature: Approve New Gym Instructor Registrations
       |maher   | 0597571210  | 5y |Accepted  |Certified fitness instructor specializing in strength training and bodybuilding |
       |Farah   | 0597412560  | 3y |   unacceptable  |               |
       |Juwan   | 0563255582  | 2y |  Accepted   |Yoga and pilates instructor focusing on flexibility and posture improvement |
-      |Mohammad|   | 7y |   unacceptable  |Experienced trainer specializing in weight loss and muscle toning programs |
+      |Mohammad|  0563255580 | 7y |   Accepted  |Experienced trainer specializing in weight loss and muscle toning programs |

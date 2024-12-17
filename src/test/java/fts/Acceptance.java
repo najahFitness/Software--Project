@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 
-        features = "usecase/Approvingnewinstructor.feature",
+        features = "usecase/DeleteProgram.feature",
         plugin = {"summary","html:target/cucumber/report.html"},
         monochrome = true,
         snippets = CucumberOptions.SnippetType.CAMELCASE ,
