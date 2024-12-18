@@ -1,3 +1,5 @@
-Weight Loss Program:2 months:Medium:Lose weight and tone body:60:In-person, Monday 7pm
-Weight Loss Program:2 months:Medium:Lose weight and tone body:60:In-person, Monday 7pm
-Weight Loss Program:2 months:Medium:Lose weight and tone body:60:In-person, Monday 7pm
+Beginner Program:8 months:hard:Improve basic fitness and stamina:300:Online, Monday 7pm
+Advanced Strength:3 months:Hard:Build strength and muscle mass:100:In-person, Wed 6pm
+Yoga for Relaxation:1 month:Medium:Improve flexibility and relaxation:30:Online, Saturday 9am
+Weight Loss Program:2 months:Mediuhardm:Lose weight and tone body:90:In-person, Monday 7pm
+Intro to Fitness:1 week:Easy:Lose weight and tone body:25:Online, Friday 4pm

@@ -13,8 +13,8 @@ Then admin should see '<message>'
 
 Examples:
 | programtitle          | duration | difficultylevel | goals                              | price | schedule          | message                    |
-| Beginner Program      |   | Easy            | Improve basic fitness and stamina   | 50    | Online, Monday 5pm | unacceptable |
+| Beginner Program      |  4months | Easy            | Improve basic fitness and stamina   | 50    | Online, Monday 5pm | Program added successfully |
 | Advanced Strength     | 3 months | Hard            | Build strength and muscle mass      | 100   | In-person, Wed 6pm | Program added successfully  |
 | Yoga for Relaxation   | 1 month  | Medium          | Improve flexibility and relaxation  | 30    | Online, Saturday 10am | Program added successfully  |
 | Weight Loss Program   | 2 months | Medium          | Lose weight and tone body          | 60    | In-person, Monday 7pm | Program added successfully  |
-| Intro to Fitness      | 1 week   | Easy            |            | 25    | Online, Friday 4pm | unacceptable |
+| Intro to Fitness      | 1 week   | Easy            |       Lose weight and tone body        | 25    | Online, Friday 4pm | Program added successfully |
