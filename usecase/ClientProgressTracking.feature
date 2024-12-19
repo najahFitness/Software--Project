@@ -26,3 +26,4 @@ Feature: Progress Tracking
     Given the user is on the Progress Tracking menu
     When the user selects "Go Back" in the Progress Tracking menu
     Then the system returns to the main menu from Progress Tracking
+

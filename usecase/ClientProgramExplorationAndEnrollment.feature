@@ -27,3 +27,4 @@ Feature: Program Exploration and Enrollment
     Given the user is on the Program Exploration menu
     When the user selects "Go Back" in the Program Exploration menu
     Then the system returns to the main menu from Program Exploration
+

@@ -22,3 +22,4 @@ public class Program {
         return "Difficulty Level: " + difficultyLevel + ", Focus Area: " + focusArea;
     }
 }
+

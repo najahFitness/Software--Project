@@ -25,3 +25,4 @@ Feature: Feedback and Reviews
     Given the user is on the Feedback and Reviews menu
     When the user selects "Go Back" in Feedback and Reviews
     Then the system returns to the main menu from Feedback and Reviews
+

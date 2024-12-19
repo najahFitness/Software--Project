@@ -94,3 +94,4 @@ public class ClientProgressTracking {
         assertEquals("The user should be returned to the main menu.", "Main Menu", currentMenu);
     }
 }
+

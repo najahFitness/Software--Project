@@ -6,3 +6,4 @@ public class ConsoleDisplayImpl implements ConsoleDisplay {
         System.out.println(message);
     }
 }
+
