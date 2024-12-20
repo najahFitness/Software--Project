@@ -9,14 +9,14 @@ import java.util.List;
 public class ApprovingFromAdmin {
     private String status;
 
-    // دالة لإضافة مدرب جديد بعد الموافقة
+
     public boolean addInstructor(String name, String phoneNumber, String yearsOfExperience, String jobDescription) {
-        // التحقق إذا كان أي حقل فارغ أو null
+
         if (name == null || name.isEmpty() ||
                 phoneNumber == null || phoneNumber.isEmpty() ||
                 yearsOfExperience == null || yearsOfExperience.isEmpty() ||
                 jobDescription == null || jobDescription.isEmpty()) {
-            setStatus("unacceptable");  // هنا يجب التأكد من كتابة الحالة بالشكل الصحيح
+            setStatus("unacceptable");
             return false;
         }
 
@@ -25,15 +25,15 @@ public class ApprovingFromAdmin {
         approvingData.add(approvingDataLine);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/test/resources/programs.txt", true))) {
-            // إضافة السجل إلى الملف
+
             for (String updatedLine : approvingData) {
                 bw.write(updatedLine);
-                bw.newLine(); // التأكد من إضافة سطر جديد بعد كل سجل
+                bw.newLine();
             }
-            setStatus("Accepted");  // تعيين الحالة عند قبول المدرب
+            setStatus("Accepted");
             return true;
         } catch (IOException e) {
-            // طباعة معلومات الخطأ في حال حدوث استثناء أثناء الكتابة
+
             setStatus("unacceptable");
             e.printStackTrace();
         }

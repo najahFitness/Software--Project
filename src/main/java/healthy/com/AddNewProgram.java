@@ -13,14 +13,14 @@ public class AddNewProgram {
         private String status;
 
         public boolean addFitnessProgram(String programTitle, String duration, String difficultyLevel, String goals, String price, String schedule) {
-            // التحقق إذا كان أي حقل فارغ أو null
+
             if (programTitle == null || programTitle.isEmpty() ||
                     duration == null || duration.isEmpty() ||
                     difficultyLevel == null || difficultyLevel.isEmpty() ||
                     goals == null || goals.isEmpty() ||
                     price == null || price.isEmpty() ||
                     schedule == null || schedule.isEmpty()) {
-                setStatus("unacceptable");  // التأكد من كتابة الحالة بشكل صحيح
+                setStatus("unacceptable");
                 return false;
             }
 
@@ -29,15 +29,15 @@ public class AddNewProgram {
             approvingData.add(approvingDataLine);
 
             try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/test/resources/ApprovingFitnessProgram.txt", true))) {
-                // إضافة السجل إلى الملف
+
                 for (String updatedLine : approvingData) {
                     bw.write(updatedLine);
-                    bw.newLine(); // التأكد من إضافة سطر جديد بعد كل سجل
+                    bw.newLine();
                 }
-                setStatus("Program added successfully");  // تعيين الحالة عند قبول البرنامج
+                setStatus("Program added successfully");
                 return true;
             } catch (IOException e) {
-                // طباعة معلومات الخطأ في حال حدوث استثناء أثناء الكتابة
+
                 setStatus("unacceptable");
                 System.err.println("Error writing to file: " + e.getMessage());
                 e.printStackTrace();

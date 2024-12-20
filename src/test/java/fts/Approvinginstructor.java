@@ -20,22 +20,22 @@ public class Approvinginstructor {
 
     @When("admin views the registration request for {string} with {string} with registration details")
     public void admin_views_the_registration_request_for_with_with_registration_details(String field, String value) {
-        setField(field, value);  // استخدم دالة مشتركة لتعيين الحقول
+        setField(field, value);
     }
 
     @When("admin checks the registration details for {string} with {string}")
     public void admin_checks_the_registration_details_for_with(String field, String value) {
-        setField(field, value);  // استخدم دالة مشتركة لتعيين الحقول
+        setField(field, value);
     }
 
     @When("admin verifies {string} has valid number of years of experience with {string}")
     public void admin_verifies_has_valid_number_of_years_of_experience_with(String field, String value) {
-        setField(field, value);  // استخدم دالة مشتركة لتعيين الحقول
+        setField(field, value);
     }
 
     @When("admin reads the job description for {string} with description {string}")
     public void admin_reads_the_job_description_for_with_description(String field, String value) {
-        setField(field, value);  // استخدم دالة مشتركة لتعيين الحقول
+        setField(field, value);
     }
 
     @When("admin clicks on approve for login")

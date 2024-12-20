@@ -25,24 +25,24 @@ public class updateFromAdmin {
                     if (credentials[0].equals(reg)) {
                         regFound = true;
 
-                        // If the fields are empty, retain the old values
+
 
                         String updatedPassword = password.isEmpty() ? credentials[1] : password;
                         String updatedName = name.isEmpty() ? credentials[2] : name;
                         String updatedRole = role.isEmpty() ? credentials[3] : role;
                         String updatedPhoneNumber = phonenumber.isEmpty() ? credentials[4] : phonenumber;
 
-                        // Create the updated line with new or old values
+
                         String updatedLine = reg + ":" + updatedName + ":" + updatedPassword + ":" + updatedPhoneNumber + ":" + updatedRole;
-                        updatedLines.add(updatedLine);  // Add the updated line
+                        updatedLines.add(updatedLine);
                     } else {
-                        updatedLines.add(line);  // Add the line unchanged if reg doesn't match
+                        updatedLines.add(line);
                     }
                 }
             }
 
             if (regFound) {
-                // Write the updated lines back to the file
+
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/test/resources/Informations.txt"))) {
                     for (String updatedLine : updatedLines) {
                         bw.write(updatedLine);
@@ -52,7 +52,7 @@ public class updateFromAdmin {
                 setStatus("Update successful");
                 return true;
             } else {
-                setStatus("Update failed");  // registernumber not found
+                setStatus("Update failed");
             }
 
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class updateFromAdmin {
             e.printStackTrace();
         }
 
-        return false;  // registernumber not found or file error
+        return false;
     }
 
     public String getStatus() {

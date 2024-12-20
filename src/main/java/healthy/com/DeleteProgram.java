@@ -13,7 +13,7 @@ public class DeleteProgram {
 
 
         public boolean deleteFitnessProgram(String programTitle) {
-            // التأكد من أنه تم تمرير اسم البرنامج
+
             if (programTitle == null || programTitle.isEmpty()) {
                 setStatus("You must provide the program title to delete");
                 return false;
@@ -25,17 +25,16 @@ public class DeleteProgram {
 
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 String line;
-                // قراءة الملف سطرًا سطرًا
+
                 while ((line = br.readLine()) != null) {
-                    // التحقق إذا كان السطر يحتوي على اسم البرنامج
                     if (line.startsWith(programTitle + ":")) {
-                        programFound = true;  // تم العثور على البرنامج
+                        programFound = true;
                     } else {
-                        fileContent.add(line);  // إضافة السطر إذا لم يكن يحتوي على اسم البرنامج
+                        fileContent.add(line);
                     }
                 }
 
-                // إذا تم العثور على البرنامج، نكتب المحتويات الجديدة في الملف
+
                 if (programFound) {
                     try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                         for (String contentLine : fileContent) {
@@ -51,7 +50,7 @@ public class DeleteProgram {
                 }
 
             } catch (IOException e) {
-                // في حال حدوث استثناء أثناء القراءة أو الكتابة
+
                 setStatus("You must provide the program title to delete");
                 e.printStackTrace();
             }
