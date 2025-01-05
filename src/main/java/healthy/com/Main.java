@@ -1,7 +1,7 @@
 package healthy.com;
 
 import java.util.Scanner;
-//a
+//aj
 
 public class Main {
     public static void main(String[] args) {
