@@ -1,7 +1,7 @@
 package healthy.com;
 
 import java.util.Scanner;
-//ali1111
+//a
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
