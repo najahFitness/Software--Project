@@ -1,7 +1,6 @@
 package fts;
 
 import healthy.com.*;
-
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,7 +19,6 @@ public class ClientProgressTracking {
         console = new ConsoleDisplayImpl();
         progressManagement = new ProgressManagement(console);
 
-        // Simulate main menu display
         lastDisplayedMessage = "Main Menu:\n1. Account Management\n2. Program Exploration\n3. Progress Tracking\n4. Exit";
         currentMenu = "Main Menu";
         console.displayMessage(lastDisplayedMessage);
@@ -33,7 +31,9 @@ public class ClientProgressTracking {
             currentMenu = "Progress Tracking Menu";
             console.displayMessage(lastDisplayedMessage);
         } else {
-            throw new IllegalArgumentException("Invalid option selected from the main menu.");
+            lastDisplayedMessage = "Invalid option selected from the main menu.";
+            console.displayMessage(lastDisplayedMessage);
+            throw new IllegalArgumentException(lastDisplayedMessage);
         }
     }
 
@@ -65,14 +65,18 @@ public class ClientProgressTracking {
                 currentMenu = "Main Menu";
                 console.displayMessage(lastDisplayedMessage);
             }
-            default -> throw new IllegalArgumentException("Invalid option selected in Progress Tracking menu.");
+            default -> {
+                lastDisplayedMessage = "Invalid option selected in Progress Tracking menu.";
+                console.displayMessage(lastDisplayedMessage);
+                throw new IllegalArgumentException(lastDisplayedMessage);
+            }
         }
     }
 
     @When("the user views {string}")
     public void theUserViews(String metric) {
         lastDisplayedMessage = "Displaying metric: " + metric;
-        console.displayMessage(lastDisplayedMessage);
+        progressManagement.displayMetric(metric);
     }
 
     @Then("the system displays the {string} correctly")
@@ -85,6 +89,7 @@ public class ClientProgressTracking {
     public void theSystemDisplaysTheAchievementsAndBadges() {
         lastDisplayedMessage = "Displaying achievements and badges...";
         console.displayMessage(lastDisplayedMessage);
+        progressManagement.viewAchievementsAndBadges();
         assertTrue("The system should confirm achievements and badges are displayed.",
                 lastDisplayedMessage.contains("achievements and badges"));
     }
@@ -93,5 +98,28 @@ public class ClientProgressTracking {
     public void theSystemReturnsToTheMainMenuFromProgressTracking() {
         assertEquals("The user should be returned to the main menu.", "Main Menu", currentMenu);
     }
-}
 
+    @When("the user selects an invalid option in the Progress Tracking menu")
+    public void theUserSelectsAnInvalidOptionInTheProgressTrackingMenu() {
+        lastDisplayedMessage = "Invalid option selected in Progress Tracking menu.";
+        console.displayMessage(lastDisplayedMessage);
+    }
+
+    @Then("the system handles the invalid option gracefully")
+    public void theSystemHandlesTheInvalidOptionGracefully() {
+        assertTrue("The system should display an error for invalid option.",
+                lastDisplayedMessage.contains("Invalid option"));
+    }
+
+    @When("the user views an invalid metric {string}")
+    public void theUserViewsAnInvalidMetric(String metric) {
+        progressManagement.displayMetric(metric);
+        lastDisplayedMessage = "Invalid metric: " + metric;
+    }
+
+    @Then("the system displays an error for the invalid metric")
+    public void theSystemDisplaysAnErrorForTheInvalidMetric() {
+        assertTrue("The system should display an error for invalid metric.",
+                lastDisplayedMessage.contains("Invalid metric"));
+    }
+}

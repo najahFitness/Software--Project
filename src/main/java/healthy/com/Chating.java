@@ -15,17 +15,16 @@ public class Chating {
         if (messageContent == null || messageContent.isEmpty() ||
                 discussionComment == null || discussionComment.isEmpty() ||
                 feedback == null || feedback.isEmpty() ||
-                progressReport == null || progressReport.isEmpty() ) {
+                progressReport == null || progressReport.isEmpty()) {
             setStatus("unacceptable");
             return false;
         }
 
         List<String> clientData = new ArrayList<>();
-        String clientDataLine = messageContent + ":" + discussionComment + ":" + feedback + ":" + progressReport ;
+        String clientDataLine = messageContent + ":" + discussionComment + ":" + feedback + ":" + progressReport;
         clientData.add(clientDataLine);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/test/resources/Chat.txt", true))) {
-
             for (String updatedLine : clientData) {
                 bw.write(updatedLine);
                 bw.newLine();
@@ -33,10 +32,8 @@ public class Chating {
             setStatus("The client has been notified successfully");
             return true;
         } catch (IOException e) {
-
             setStatus("unacceptable");
             System.err.println("Error writing to file: " + e.getMessage());
-            e.printStackTrace();
         }
 
         setStatus("unacceptable");
