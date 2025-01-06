@@ -3,31 +3,47 @@ package healthy.com;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class user {
     private String status;
+    private static final String CREDENTIALS_FILE = "src/test/resources/Informations.txt";
+
     public boolean login(String username, String password) {
-        if(username.isEmpty() || password.isEmpty()) {
+        if (isEmpty(username) || isEmpty(password)) {
             setStatus("Invalid username or password");
             return false;
         }
-        try (BufferedReader br = new BufferedReader(new FileReader("src/test/resources/Informations.txt"))) {
+
+        Map<String, String> credentials = loadCredentials();
+        if (credentials.containsKey(username) && credentials.get(username).equals(password)) {
+            setStatus("Valid username and password");
+            return true;
+        }
+
+        setStatus("Invalid username or password");
+        return false;
+    }
+
+    private Map<String, String> loadCredentials() {
+        Map<String, String> credentials = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(CREDENTIALS_FILE))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] credentials = line.split(":");
-                if (credentials.length == 2) {
-                    if (credentials[0].equals(username) && credentials[1].equals(password)) {
-                        setStatus("Valid username and password");
-                        return true;  // Credentials match
-                    }
+                String[] parts = line.split(":");
+                if (parts.length == 2) {
+                    credentials.put(parts[0], parts[1]);
                 }
             }
         } catch (IOException e) {
-            setStatus("Invalid username or password");
             e.printStackTrace();
         }
-        setStatus("Invalid username or password");
-        return false;  // Credentials do not match
+        return credentials;
+    }
+
+    private boolean isEmpty(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
     public String getStatus() {
