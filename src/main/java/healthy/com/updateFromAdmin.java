@@ -13,14 +13,14 @@ public class updateFromAdmin {
     private String status;
 
     public boolean updating(String reg, String name, String password, String phonenumber, String role) {
-        if (reg.isEmpty()) {
+        if (isEmpty(reg)) {
             setStatus(STATUS_UPDATE_FAILED);
             return false;
         }
 
         try {
-            List<String> updatedLines = readAndUpdateFile(reg, name, password, phonenumber, role);
-            if (updatedLines != null) {
+            List<String> updatedLines = processFileAndUpdate(reg, name, password, phonenumber, role);
+            if (!updatedLines.isEmpty()) {
                 writeToFile(updatedLines);
                 setStatus(STATUS_UPDATE_SUCCESS);
                 return true;
@@ -35,35 +35,32 @@ public class updateFromAdmin {
         return false;
     }
 
-    private List<String> readAndUpdateFile(String reg, String name, String password, String phonenumber, String role) throws IOException {
+    private List<String> processFileAndUpdate(String reg, String name, String password, String phonenumber, String role) throws IOException {
         List<String> updatedLines = new ArrayList<>();
         boolean regFound = false;
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] credentials = line.split(":");
-                if (credentials.length == 5) {
-                    if (credentials[0].equals(reg)) {
-                        regFound = true;
-                        updatedLines.add(updateLine(credentials, reg, name, password, phonenumber, role));
-                    } else {
-                        updatedLines.add(line);
-                    }
-                }
+                updatedLines.add(processLine(line, reg, name, password, phonenumber, role));
+                if (line.startsWith(reg + ":")) regFound = true;
             }
         }
 
-        return regFound ? updatedLines : null;
+        return regFound ? updatedLines : new ArrayList<>();
     }
 
-    private String updateLine(String[] credentials, String reg, String name, String password, String phonenumber, String role) {
-        String updatedPassword = password.isEmpty() ? credentials[1] : password;
-        String updatedName = name.isEmpty() ? credentials[2] : name;
-        String updatedRole = role.isEmpty() ? credentials[3] : role;
-        String updatedPhoneNumber = phonenumber.isEmpty() ? credentials[4] : phonenumber;
+    private String processLine(String line, String reg, String name, String password, String phonenumber, String role) {
+        String[] credentials = line.split(":");
+        if (credentials.length != 5 || !credentials[0].equals(reg)) {
+            return line;
+        }
 
-        return reg + ":" + updatedName + ":" + updatedPassword + ":" + updatedPhoneNumber + ":" + updatedRole;
+        return reg + ":" +
+                (isEmpty(name) ? credentials[2] : name) + ":" +
+                (isEmpty(password) ? credentials[1] : password) + ":" +
+                (isEmpty(phonenumber) ? credentials[4] : phonenumber) + ":" +
+                (isEmpty(role) ? credentials[3] : role);
     }
 
     private void writeToFile(List<String> updatedLines) throws IOException {
@@ -73,6 +70,10 @@ public class updateFromAdmin {
                 bw.newLine();
             }
         }
+    }
+
+    private boolean isEmpty(String value) {
+        return value == null || value.trim().isEmpty();
     }
 
     public String getStatus() {
