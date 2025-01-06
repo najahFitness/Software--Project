@@ -5,13 +5,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddNewProgram {
-//a
+
     // Define constants for repeated literals
     private static final String STATUS_UNACCEPTABLE = "unacceptable";
     private static final String STATUS_PROGRAM_ADDED = "Program added successfully";
     private static final String FILE_PATH = "src/test/resources/ApprovingFitnessProgram.txt";
+
+    // Logger instance
+    private static final Logger logger = Logger.getLogger(AddNewProgram.class.getName());
 
     private String status;
 
@@ -44,8 +49,9 @@ public class AddNewProgram {
         } catch (IOException e) {
 
             setStatus(STATUS_UNACCEPTABLE);
-            System.err.println("Error writing to file: " + e.getMessage());
-            e.printStackTrace();
+            // Replacing System.err with Logger
+            logger.log(Level.SEVERE, "Error writing to file: {0}", e.getMessage());
+            logger.log(Level.SEVERE, "Stack Trace:", e);
         }
 
         setStatus(STATUS_UNACCEPTABLE);
