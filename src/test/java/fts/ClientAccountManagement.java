@@ -1,133 +1,49 @@
 package fts;
 
-import healthy.com.*;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import healthy.com.AccountManagement;
+import io.cucumber.java.en.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClientAccountManagement {
 
-    private ConsoleDisplay console;
     private AccountManagement accountManagement;
-    private String lastDisplayedMessage;
-    private String currentMenu;
+    private int age;
+    private int weight;
+    private int height;
+    private String fitnessGoals;
+    private String dietaryPreferences;
+    private String confirmationMessage;
 
-    @Given("the user starts the application for Account Management")
-    public void theUserStartsTheApplicationForAccountManagement() {
-        console = new ConsoleDisplayImpl();
-        accountManagement = new AccountManagement(console);
-
-        lastDisplayedMessage = "Main Menu:\n1. Account Management\n2. Exit";
-        currentMenu = "Main Menu";
-        console.displayMessage(lastDisplayedMessage);
+    @Given("the client is logged into the system to manage their account")
+    public void the_client_is_logged_into_the_system_to_manage_their_account() {
+        accountManagement = new AccountManagement();
     }
 
-    @When("the user selects {string} from the Account Management main menu")
-    public void theUserSelectsFromTheAccountManagementMainMenu(String option) {
-        switch (option) {
-            case "1. Account Management" -> {
-                lastDisplayedMessage = "Account Management Menu:\n1. Customize Profile\n2. View Profile Data\n3. Clear Profile Data\n4. Go Back";
-                currentMenu = "Account Management Menu";
-                console.displayMessage(lastDisplayedMessage);
-            }
-            case "2. Exit" -> {
-                lastDisplayedMessage = "Exiting the application...";
-                currentMenu = "Exit";
-                console.displayMessage(lastDisplayedMessage);
-            }
-            default -> {
-                lastDisplayedMessage = "Invalid option. Please select a valid menu item.";
-                console.displayMessage(lastDisplayedMessage);
-            }
-        }
+    @When("the client enters personal details with {int}, {int}, and {int}")
+    public void the_client_enters_personal_details_with_and(int age, int weight, int height) {
+        this.age = age;
+        this.weight = weight;
+        this.height = height;
     }
 
-    @Then("the system displays the Account Management menu options")
-    public void theSystemDisplaysTheAccountManagementMenuOptions() {
-        assertEquals("Account Management Menu", currentMenu);
+    @When("the client specifies fitness goals as {string}")
+    public void the_client_specifies_fitness_goals_as(String fitnessGoals) {
+        this.fitnessGoals = fitnessGoals;
     }
 
-    @Given("the user is on the Account Management menu")
-    public void theUserIsOnTheAccountManagementMenu() {
-        theUserStartsTheApplicationForAccountManagement();
-        theUserSelectsFromTheAccountManagementMainMenu("1. Account Management");
+    @When("the client specifies dietary preferences or restrictions as {string}")
+    public void the_client_specifies_dietary_preferences_or_restrictions_as(String dietaryPreferences) {
+        this.dietaryPreferences = dietaryPreferences;
     }
 
-    @When("the user selects {string} in the Account Management menu")
-    public void theUserSelectsInTheAccountManagementMenu(String option) {
-        switch (option) {
-            case "Customize Profile" -> {
-                lastDisplayedMessage = "Customizing Profile...";
-                console.displayMessage(lastDisplayedMessage);
-            }
-            case "View Profile Data" -> {
-                lastDisplayedMessage = "Viewing Profile Data...";
-                console.displayMessage(lastDisplayedMessage);
-                accountManagement.viewProfileData();
-            }
-            case "Clear Profile Data" -> {
-                lastDisplayedMessage = "Clearing Profile Data...";
-                console.displayMessage(lastDisplayedMessage);
-                accountManagement.clearProfileData();
-            }
-            case "Go Back" -> {
-                lastDisplayedMessage = "Returning to Main Menu...";
-                currentMenu = "Main Menu";
-                console.displayMessage(lastDisplayedMessage);
-            }
-            default -> {
-                lastDisplayedMessage = "Invalid option selected.";
-                console.displayMessage(lastDisplayedMessage);
-            }
-        }
+    @When("the client saves their profile")
+    public void the_client_saves_their_profile() {
+        confirmationMessage = accountManagement.createProfile(age, weight, height, fitnessGoals, dietaryPreferences);
     }
 
-    @When("the user enters {string} as {string}")
-    public void theUserEntersAs(String field, String value) {
-        accountManagement.customizeProfile(field, value);
-    }
-
-    @Then("the system saves the {string} successfully")
-    public void theSystemSavesTheSuccessfully(String field) {
-        accountManagement.viewProfileData();
-        assertTrue(profileFieldExists(field));
-    }
-
-    @Then("the system displays no data when profile is empty")
-    public void theSystemDisplaysNoDataWhenProfileIsEmpty() {
-        accountManagement.clearProfileData();
-        accountManagement.viewProfileData();
-        assertEquals("No data available.", lastDisplayedMessage);
-    }
-
-    @When("the user tries to save a profile field with {string} and {string}")
-    public void theUserTriesToSaveAProfileFieldWithAnd(String field, String value) {
-        if (field.isEmpty() || value.isEmpty()) {
-            lastDisplayedMessage = "Invalid input. Field and value cannot be empty.";
-            console.displayMessage(lastDisplayedMessage);
-        } else {
-            accountManagement.customizeProfile(field, value);
-        }
-    }
-
-    @Then("the system should not save invalid data")
-    public void theSystemShouldNotSaveInvalidData() {
-        assertFalse("Invalid data should not be saved.", profileFieldExists(""));
-    }
-
-    @When("the user encounters an error while loading profile data")
-    public void theUserEncountersAnErrorWhileLoadingProfileData() {
-        // Simulate file loading error
-        accountManagement.clearProfileData();
-        accountManagement.viewProfileData();
-        lastDisplayedMessage = "Error loading profile data.";
-        console.displayMessage(lastDisplayedMessage);
-    }
-
-    private boolean profileFieldExists(String field) {
-        // Logic to verify if a field exists in profile data
-        return !field.isEmpty();
+    @Then("the system should confirm {string} for the profile creation")
+    public void the_system_should_confirm_for_the_profile_creation(String expectedMessage) {
+        assertEquals(expectedMessage, confirmationMessage, "The profile creation confirmation should match.");
     }
 }

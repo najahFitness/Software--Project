@@ -1,60 +1,30 @@
 package healthy.com;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class AccountManagement {
-    private ConsoleDisplay console;
-    private Map<String, String> profileData = new HashMap<>();
 
-    public AccountManagement(ConsoleDisplay console) {
-        this.console = console;
-        loadProfileData();
-    }
+    private static final String FILE_PATH = "src/test/resources/ClientProfiles.txt";
 
-    public void customizeProfile(String field, String value) {
-        console.displayMessage("Customizing " + field + "...");
-        profileData.put(field, value);
-        saveProfileData();
-        console.displayMessage(field + " set to: " + value);
-    }
-
-    public void viewProfileData() {
-        console.displayMessage("Profile Data:");
-        if (profileData.isEmpty()) {
-            console.displayMessage("No data available.");
-        } else {
-            profileData.forEach((field, value) -> console.displayMessage(field + ": " + value));
+    public String createProfile(int age, int weight, int height, String fitnessGoals, String dietaryPreferences) {
+        // Validate inputs
+        if (age <= 0 || weight <= 0 || height <= 0 || fitnessGoals == null || fitnessGoals.isEmpty()) {
+            return "Profile creation failed: Invalid inputs";
         }
-    }
 
-    public void clearProfileData() {
-        console.displayMessage("Clearing all profile data...");
-        profileData.clear();
-        saveProfileData();
-        console.displayMessage("Profile data cleared successfully.");
-    }
+        String profileData = "Age: " + age + ", Weight: " + weight + "kg, Height: " + height + "cm, Fitness Goals: " + fitnessGoals +
+                ", Dietary Preferences: " + (dietaryPreferences.isEmpty() ? "None" : dietaryPreferences);
 
-    private void loadProfileData() {
-        try (Scanner fileScanner = new Scanner(new File("profile_data.txt"))) {
-            while (fileScanner.hasNextLine()) {
-                String[] parts = fileScanner.nextLine().split(": ");
-                if (parts.length == 2) {
-                    profileData.put(parts[0], parts[1]);
-                }
-            }
+        // Save to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+            writer.write(profileData);
+            writer.newLine();
         } catch (IOException e) {
-            console.displayMessage("Error loading profile data: " + e.getMessage());
+            return "Profile creation failed: Unable to save";
         }
-    }
 
-    private void saveProfileData() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("profile_data.txt"))) {
-            profileData.forEach((field, value) -> writer.println(field + ": " + value));
-        } catch (IOException e) {
-            console.displayMessage("Error saving profile data: " + e.getMessage());
-        }
+        return "Profile created successfully";
     }
 }

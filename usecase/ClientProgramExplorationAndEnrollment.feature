@@ -1,30 +1,15 @@
 Feature: Program Exploration and Enrollment
 
-  Scenario: User navigates to the Program Exploration menu
-    Given the user starts the application
-    When the user selects "2. Program Exploration" from the main menu
-    Then the system displays the Program Exploration menu options
-
-  Scenario Outline: Filter programs by criteria
-    Given the user is on the Program Exploration menu
-    When the user selects "Filter Programs by <criteria>" in the Program Exploration menu
-    And the user enters "<value>"
-    Then the system displays programs matching the "<value>"
+  Scenario Outline: Explore programs and enroll based on filters
+    Given the client is logged into the system to explore programs
+    When the client browses programs with difficulty level '<difficultyLevel>' and focus area '<focusArea>'
+    And the client selects a program titled '<programTitle>' for enrollment
+    And the client confirms the enrollment
+    Then the system should confirm '<confirmationMessage>' for the enrollment
 
     Examples:
-      | criteria           | value            |
-      | Difficulty Level   | Beginner         |
-      | Difficulty Level   | Advanced         |
-      | Focus Area         | Weight Loss      |
-      | Focus Area         | Flexibility      |
-
-  Scenario: User views the program schedule
-    Given the user is on the Program Exploration menu
-    When the user selects "View Program Schedule" in the Program Exploration menu
-    Then the system displays the program schedule
-
-  Scenario: User exits the Program Exploration menu
-    Given the user is on the Program Exploration menu
-    When the user selects "Go Back" in the Program Exploration menu
-    Then the system returns to the main menu from Program Exploration
-
+      | difficultyLevel | focusArea           | programTitle          | confirmationMessage          |
+      | Beginner        | Weight loss         | Intro to Weight Loss  | Enrollment successful        |
+      | Intermediate    | Muscle building     | Strength Bootcamp     | Enrollment successful        |
+      | Advanced        | Flexibility         | Advanced Yoga Program | Enrollment successful        |
+      | Beginner        | General fitness     | Beginner Fitness Plan | Enrollment successful        |

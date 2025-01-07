@@ -1,90 +1,44 @@
-package fts;
 
-import healthy.com.*;
+        package fts;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import healthy.com.ProgramManagement;
+import io.cucumber.java.en.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClientProgramExplorationAndEnrollment {
 
-    private ConsoleDisplay console;
     private ProgramManagement programManagement;
-    private String lastDisplayedMessage;
-    private String currentMenu;
+    private String difficultyLevel;
+    private String focusArea;
+    private String programTitle;
+    private String confirmationMessage;
 
-    @Given("the user starts the application for Program Exploration")
-    public void theUserStartsTheApplicationForProgramExploration() {
-        console = new ConsoleDisplayImpl();
-        programManagement = new ProgramManagement(console);
-
-        // Simulate main menu display
-        lastDisplayedMessage = "Main Menu:\n1. Account Management\n2. Program Exploration\n3. Exit";
-        currentMenu = "Main Menu";
-        console.displayMessage(lastDisplayedMessage);
+    @Given("the client is logged into the system to explore programs")
+    public void the_client_is_logged_into_the_system_to_explore_programs() {
+        programManagement = new ProgramManagement();
     }
 
-    @When("the user selects {string} from the Program Exploration main menu")
-    public void theUserSelectsFromTheProgramExplorationMainMenu(String option) {
-        switch (option) {
-            case "2. Program Exploration" -> {
-                lastDisplayedMessage = "Program Exploration Menu:\n1. Filter Programs by Difficulty Level\n2. Filter Programs by Focus Area\n3. View Program Schedule\n4. Go Back";
-                currentMenu = "Program Exploration Menu";
-                console.displayMessage(lastDisplayedMessage);
-            }
-            case "3. Exit" -> {
-                lastDisplayedMessage = "Exiting the application...";
-                currentMenu = "Exit";
-                console.displayMessage(lastDisplayedMessage);
-            }
-            default -> throw new IllegalArgumentException("Invalid option selected from the Program Exploration main menu.");
-        }
+    @When("the client browses programs with difficulty level {string} and focus area {string}")
+    public void the_client_browses_programs_with_difficulty_level_and_focus_area(String difficultyLevel, String focusArea) {
+        this.difficultyLevel = difficultyLevel;
+        this.focusArea = focusArea;
+        programManagement.filterPrograms(difficultyLevel, focusArea);
     }
 
-    @Then("the system displays the Program Exploration menu options")
-    public void theSystemDisplaysTheProgramExplorationMenuOptions() {
-        assertEquals("The user should be on the Program Exploration menu.", "Program Exploration Menu", currentMenu);
+    @When("the client selects a program titled {string} for enrollment")
+    public void the_client_selects_a_program_titled_for_enrollment(String programTitle) {
+        this.programTitle = programTitle;
+        confirmationMessage = programManagement.enrollInProgram(programTitle);
     }
 
-    @Given("the user is on the Program Exploration menu")
-    public void theUserIsOnTheProgramExplorationMenu() {
-        theUserStartsTheApplicationForProgramExploration();
-        theUserSelectsFromTheProgramExplorationMainMenu("2. Program Exploration");
+    @When("the client confirms the enrollment")
+    public void the_client_confirms_the_enrollment() {
+        confirmationMessage = programManagement.confirmEnrollment(programTitle);
     }
 
-    @When("the user selects {string} in the Program Exploration menu")
-    public void theUserSelectsInTheProgramExplorationMenu(String option) {
-        switch (option) {
-            case "Filter Programs by Difficulty Level" -> {
-                lastDisplayedMessage = "Filtering by Difficulty Level...";
-                console.displayMessage(lastDisplayedMessage);
-                programManagement.filterPrograms("Difficulty Level", "Beginner");
-            }
-            case "Filter Programs by Focus Area" -> {
-                lastDisplayedMessage = "Filtering by Focus Area...";
-                console.displayMessage(lastDisplayedMessage);
-                programManagement.filterPrograms("Focus Area", "Weight Loss");
-            }
-            case "View Program Schedule" -> {
-                lastDisplayedMessage = "Viewing Program Schedule...";
-                console.displayMessage(lastDisplayedMessage);
-                programManagement.viewProgramSchedule();
-            }
-            case "Go Back" -> {
-                lastDisplayedMessage = "Returning to Main Menu...";
-                currentMenu = "Main Menu";
-                console.displayMessage(lastDisplayedMessage);
-            }
-            default -> throw new IllegalArgumentException("Invalid option selected in Program Exploration menu.");
-        }
+    @Then("the system should confirm {string} for the enrollment")
+    public void the_system_should_confirm_for_the_enrollment(String expectedMessage) {
+        assertEquals(expectedMessage, confirmationMessage, "The enrollment confirmation should match.");
     }
-
-    @Then("the system returns to the main menu from Program Exploration")
-    public void theSystemReturnsToTheMainMenuFromProgramExploration() {
-        assertEquals("The user should be returned to the main menu.", "Main Menu", currentMenu);
-    }
-
 }
-

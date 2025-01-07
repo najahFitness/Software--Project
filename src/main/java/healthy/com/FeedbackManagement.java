@@ -4,54 +4,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedbackManagement {
-    private ConsoleDisplay console;
-    private int programRating;
-    private int trainerRating;
-    private final List<String> feedbackReasons = new ArrayList<>();
 
-    public FeedbackManagement(ConsoleDisplay console) {
-        this.console = console;
+    private final List<String> feedbackList;
+    private final List<String> suggestionsList;
+
+    public FeedbackManagement() {
+        this.feedbackList = new ArrayList<>();
+        this.suggestionsList = new ArrayList<>();
     }
 
-    // Set program rating
-    public void setProgramRating(int rating) {
-        this.programRating = rating;
-        console.displayMessage("Program rated with " + rating + " stars.");
+    // Add rating and review
+    public void addFeedback(String programName, int programRating, String programReview) {
+        String feedback = "Program: " + programName + ", Rating: " + programRating + " stars, Review: " + programReview;
+        feedbackList.add(feedback);
     }
 
-    // Set trainer rating
-    public void setTrainerRating(int rating) {
-        this.trainerRating = rating;
-        console.displayMessage("Trainer rated with " + rating + " stars.");
+    // Add improvement suggestion
+    public void addSuggestion(String programName, String suggestion) {
+        String fullSuggestion = "Program: " + programName + ", Suggestion: " + suggestion;
+        suggestionsList.add(fullSuggestion);
     }
 
-    // Add reasons for feedback
-    public void addReason(String aspect, String reason) {
-        feedbackReasons.add(aspect + ": " + reason);
-        console.displayMessage("Added reason for " + aspect + ": " + reason);
-    }
-
-    // Save feedback
-    public void saveFeedback() {
-        console.displayMessage("Saving feedback...");
-        console.displayMessage("Program Rating: " + programRating + " stars");
-        console.displayMessage("Trainer Rating: " + trainerRating + " stars");
-        console.displayMessage("Feedback Reasons:");
-        for (String reason : feedbackReasons) {
-            console.displayMessage("- " + reason);
+    // Save feedback and suggestions
+    public String saveFeedbackAndSuggestions() {
+        StringBuilder result = new StringBuilder("Feedback and Suggestions saved successfully.\n");
+        result.append("Feedback:\n");
+        for (String feedback : feedbackList) {
+            result.append("- ").append(feedback).append("\n");
         }
-        console.displayMessage("Feedback saved successfully!");
+        result.append("Suggestions:\n");
+        for (String suggestion : suggestionsList) {
+            result.append("- ").append(suggestion).append("\n");
+        }
+        return result.toString();
     }
 
-    // Display all feedback
-    public void displayFeedback() {
-        console.displayMessage("Displaying all feedback...");
-        console.displayMessage("Program Rating: " + programRating + " stars");
-        console.displayMessage("Trainer Rating: " + trainerRating + " stars");
-        console.displayMessage("Feedback Reasons:");
-        for (String reason : feedbackReasons) {
-            console.displayMessage("- " + reason);
+    // Display all feedback and suggestions
+    public String displayAllFeedback() {
+        StringBuilder result = new StringBuilder("Displaying all feedback and suggestions:\n");
+        if (feedbackList.isEmpty() && suggestionsList.isEmpty()) {
+            return "No feedback or suggestions submitted yet.";
         }
+        if (!feedbackList.isEmpty()) {
+            result.append("Feedback:\n");
+            for (String feedback : feedbackList) {
+                result.append("- ").append(feedback).append("\n");
+            }
+        }
+        if (!suggestionsList.isEmpty()) {
+            result.append("Suggestions:\n");
+            for (String suggestion : suggestionsList) {
+                result.append("- ").append(suggestion).append("\n");
+            }
+        }
+        return result.toString();
     }
 }
-

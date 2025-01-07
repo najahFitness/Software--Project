@@ -2,59 +2,48 @@ package healthy.com;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProgramManagement {
-    private ConsoleDisplay console;
-    private List<Program> programs;
 
-    public ProgramManagement(ConsoleDisplay console) {
-        this.console = console;
-        this.programs = new ArrayList<>();
-        initializePrograms();
+    private final List<String> programs;
+    private List<String> filteredPrograms;
+
+    public ProgramManagement() {
+        programs = new ArrayList<>();
+        filteredPrograms = new ArrayList<>();
+
+        // Dummy programs
+        programs.add("Beginner:Intro to Weight Loss:Weight loss:Monday 6 PM");
+        programs.add("Intermediate:Strength Bootcamp:Muscle building:Wednesday 7 PM");
+        programs.add("Advanced:Advanced Yoga Program:Flexibility:Friday 8 AM");
+        programs.add("Beginner:Beginner Fitness Plan:General fitness:Saturday 9 AM");
     }
 
-    private void initializePrograms() {
-        programs.add(new Program("Beginner", "Weight Loss"));
-        programs.add(new Program("Advanced", "Muscle Building"));
-        programs.add(new Program("Intermediate", "Flexibility"));
-        programs.add(new Program("Beginner", "Cardio"));
-    }
-
-    public void displayMenu() {
-        console.displayMessage("Program Exploration Menu:");
-        console.displayMessage("1. Filter Programs by Difficulty Level");
-        console.displayMessage("2. Filter Programs by Focus Area");
-        console.displayMessage("3. View Program Schedule");
-        console.displayMessage("4. Go Back");
-    }
-
-    public void filterPrograms(String criteria, String value) {
-        List<Program> filteredPrograms = programs.stream()
-                .filter(p -> {
-                    if (criteria.equalsIgnoreCase("Difficulty Level")) {
-                        return p.getDifficultyLevel().equalsIgnoreCase(value);
-                    } else if (criteria.equalsIgnoreCase("Focus Area")) {
-                        return p.getFocusArea().equalsIgnoreCase(value);
-                    }
-                    return false;
-                })
-                .collect(Collectors.toList());
-
-        if (filteredPrograms.isEmpty()) {
-            console.displayMessage("No programs found matching " + value);
-        } else {
-            console.displayMessage("Programs matching " + value + ":");
-            filteredPrograms.forEach(p -> console.displayMessage(p.toString()));
+    public void filterPrograms(String difficultyLevel, String focusArea) {
+        filteredPrograms = new ArrayList<>();
+        for (String program : programs) {
+            String[] details = program.split(":");
+            if (details[0].equalsIgnoreCase(difficultyLevel) && details[2].equalsIgnoreCase(focusArea)) {
+                filteredPrograms.add(program);
+            }
         }
     }
 
-    public void viewProgramSchedule() {
-        console.displayMessage("Displaying program schedule...");
-        console.displayMessage("1. Beginner: Monday & Wednesday, 5 PM");
-        console.displayMessage("2. Advanced: Tuesday & Thursday, 6 PM");
-        console.displayMessage("3. Weight Loss: Friday, 7 PM");
+    public String enrollInProgram(String programTitle) {
+        for (String program : filteredPrograms) {
+            if (program.contains(programTitle)) {
+                return "Enrollment successful";
+            }
+        }
+        return "Program not found";
+    }
+
+    public String confirmEnrollment(String programTitle) {
+        for (String program : programs) {
+            if (program.contains(programTitle)) {
+                return "Enrollment successful";
+            }
+        }
+        return "Enrollment failed: Program not found";
     }
 }
-
-

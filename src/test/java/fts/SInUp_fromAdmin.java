@@ -9,61 +9,29 @@ public class SInUp_fromAdmin {
     private String name;
     private String role;
     private String phonenumber;
-    public SinUp_FromAdmin op;
+    private SinUp_FromAdmin op;
 
     @Given("admin is logged in to the system")
     public void admin_is_logged_in_to_the_system() {
-        op = new SinUp_FromAdmin();
+        op = new SinUp_FromAdmin(); // إنشاء كائن من الفئة SinUp_FromAdmin
     }
 
-    @When("admin fills in {string} with {string} with  for the client or instructor")
-    public void admin_fills_in_with_with_for_the_client_or_instructor(String string, String string2) {
-         if (string.equals("name")) {
-             name = string2;
-         }
-         if (string.equals("role")) {
-             role = string2;
-         }
-         if (string.equals("phonenumber")) {
-             phonenumber = string2;
-         }
-    }
     @When("admin fills in {string} with {string} for the client or instructor")
-    public void adminFillsInWithForTheClientOrInstructor(String string, String string2) {
-        if (string.equals("name")) {
-            name = string2;
-        }
-        if (string.equals("role")) {
-            role = string2;
-        }
-        if (string.equals("phonenumber")) {
-            phonenumber = string2;
+    public void admin_fills_in_with_for_the_client_or_instructor(String field, String value) {
+        switch (field) {
+            case "name" -> name = value;
+            case "role" -> role = value;
+            case "phonenumber" -> phonenumber = value;
         }
     }
-    @When("admin fills in {string} with {string}  for the client or instructor")
-    public void admin_FillsInWithForTheClientOrInstructor(String string, String string2) {
-        if (string.equals("name")) {
-            name = string2;
-        }
-        if (string.equals("role")) {
-            role = string2;
-        }
-        if (string.equals("phonenumber")) {
-            phonenumber = string2;
-        }
-    }
-
-
 
     @When("admin clicks on Add to create the new role")
     public void admin_clicks_on_add_to_create_the_new_role() {
-        op.isSinUP(name, role, phonenumber);
+        op.isSinUP(name, role, phonenumber); // استدعاء الدالة الرئيسية
     }
 
-    @Then("admin should see a confirmation message {string} for the new  role")
-    public void admin_should_see_a_confirmation_message_for_the_new_role(String string) {
-        assertEquals(string,op.getStatus());
+    @Then("admin should see a confirmation message {string} for the new role")
+    public void admin_should_see_a_confirmation_message_for_the_new_role(String expectedMessage) {
+        assertEquals(expectedMessage, op.getStatus());
     }
-
-
 }

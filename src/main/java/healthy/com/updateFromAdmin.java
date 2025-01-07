@@ -8,7 +8,9 @@ public class updateFromAdmin {
 
     private static final String STATUS_UPDATE_FAILED = "Update failed";
     private static final String STATUS_UPDATE_SUCCESS = "Update successful";
-    private static final String FILE_PATH = "src/test/resources/Informations.txt";
+    private static final String USER_NOT_FOUND = "This user not found";
+    private static final String INFORMATION_FILE = "src/test/resources/Informations.txt";
+    private static final String SIGNUP_FILE = "src/test/resources/Signup.txt";
 
     private String status;
 
@@ -19,9 +21,18 @@ public class updateFromAdmin {
         }
 
         try {
-            List<String> updatedLines = processFileAndUpdate(reg, name, password, phonenumber, role);
-            if (!updatedLines.isEmpty()) {
-                writeToFile(updatedLines);
+            // تحقق إذا كان المستخدم موجودًا في ملف Informations.txt
+            if (!isUserExist(reg)) {
+                setStatus(USER_NOT_FOUND);
+                return false;
+            }
+
+            // تحديث ملف Signup.txt
+            List<String> updatedSignupLines = processSignupFileAndUpdate(reg, name, phonenumber, role);
+
+            // كتابة التعديلات إلى ملف Signup.txt
+            if (!updatedSignupLines.isEmpty()) {
+                writeToFile(SIGNUP_FILE, updatedSignupLines);
                 setStatus(STATUS_UPDATE_SUCCESS);
                 return true;
             } else {
@@ -35,36 +46,44 @@ public class updateFromAdmin {
         return false;
     }
 
-    private List<String> processFileAndUpdate(String reg, String name, String password, String phonenumber, String role) throws IOException {
-        List<String> updatedLines = new ArrayList<>();
-        boolean regFound = false;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+    private boolean isUserExist(String reg) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(INFORMATION_FILE))) {
             String line;
             while ((line = br.readLine()) != null) {
-                updatedLines.add(processLine(line, reg, name, password, phonenumber, role));
-                if (line.startsWith(reg + ":")) regFound = true;
+                if (line.startsWith(reg + ":")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private List<String> processSignupFileAndUpdate(String reg, String name, String phonenumber, String role) throws IOException {
+        List<String> updatedLines = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(SIGNUP_FILE))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                updatedLines.add(processSignupLine(line, reg, name, phonenumber, role));
             }
         }
 
-        return regFound ? updatedLines : new ArrayList<>();
+        return updatedLines;
     }
 
-    private String processLine(String line, String reg, String name, String password, String phonenumber, String role) {
+    private String processSignupLine(String line, String reg, String name, String phonenumber, String role) {
         String[] credentials = line.split(":");
-        if (credentials.length != 5 || !credentials[0].equals(reg)) {
-            return line;
+        if (credentials.length != 3 || !credentials[0].equals(reg)) {
+            return line; // إذا لم يكن الرقم مطابقًا، نرجع السطر كما هو
         }
 
         return reg + ":" +
-                (isEmpty(name) ? credentials[2] : name) + ":" +
-                (isEmpty(password) ? credentials[1] : password) + ":" +
-                (isEmpty(phonenumber) ? credentials[4] : phonenumber) + ":" +
-                (isEmpty(role) ? credentials[3] : role);
+                (isEmpty(phonenumber) ? credentials[2] : phonenumber) + ":" +
+                (isEmpty(role) ? credentials[1] : role); // تعديل البيانات بناءً على المدخلات
     }
 
-    private void writeToFile(List<String> updatedLines) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+    private void writeToFile(String filePath, List<String> updatedLines) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             for (String updatedLine : updatedLines) {
                 bw.write(updatedLine);
                 bw.newLine();

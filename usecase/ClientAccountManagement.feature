@@ -1,25 +1,16 @@
-Feature: Account Management
+Feature: Client Account Management
 
-  Scenario: User navigates to the Account Management menu
-    Given the user starts the application
-    When the user selects "1. Account Management" from the main menu
-    Then the system displays the Account Management menu options
-
-  Scenario Outline: User customizes their profile
-    Given the user is on the Account Management menu
-    When the user selects "Customize Profile" in the Account Management menu
-    And the user enters "<field>" as "<value>"
-    Then the system saves the "<field>" successfully
+  Scenario Outline: Create and customize client profiles with enhanced details
+    Given the client is logged into the system to manage their account
+    When the client enters personal details with <age>, <weight>, and <height>
+    And the client specifies fitness goals as '<fitnessGoals>'
+    And the client specifies dietary preferences or restrictions as '<dietaryPreferences>'
+    And the client saves their profile
+    Then the system should confirm '<confirmationMessage>' for the profile creation
 
     Examples:
-      | field                | value            |
-      | Age                  | 30               |
-      | Fitness Goal         | Weight Loss      |
-      | Dietary Preference   | Vegan            |
-      | Fitness Goal         | Muscle Building  |
-
-  Scenario: User exits Account Management menu
-    Given the user is on the Account Management menu
-    When the user selects "Go Back" in the Account Management menu
-    Then the system returns to the main menu from Account Management
-
+      | age | weight | height | fitnessGoals               | dietaryPreferences       | confirmationMessage               |
+      | 25  | 70     | 175    | Build muscle               | High protein             | Profile created successfully      |
+      | 30  | 85     | 180    | Lose weight                | Vegan                    | Profile created successfully      |
+      | 35  | 68     | 160    | Maintain current fitness   | Gluten-free              | Profile created successfully      |
+      | 28  | 75     | 170    | Improve stamina            | None                     | Profile created successfully      |
