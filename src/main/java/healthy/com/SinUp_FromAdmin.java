@@ -10,20 +10,20 @@ public class SinUp_FromAdmin {
     private static final String SIGNUP_FILE = "src/test/resources/Signup.txt";
     private static final String INFORMATION_FILE = "src/test/resources/Informations.txt";
 
+    // Shared Random instance
+    private static final Random RANDOM_GENERATOR = new Random();
+
     public boolean isSinUP(String name, String role, String phonenumber) {
         if (isEmpty(name) || isEmpty(role) || isEmpty(phonenumber)) {
             setStatus("Invalid name or phonenumber");
             return false;
         }
 
-        // تخزين البيانات الأساسية في ملف Signup.txt
         saveToSignupFile(name, role, phonenumber);
 
-        // إنشاء رقم تسجيل وكلمة مرور
         String registrationNumber = generateRegistrationNumber(role);
         String password = generatePassword();
 
-        // تخزين رقم التسجيل وكلمة المرور في ملف Informations.txt
         saveToInformationFile(registrationNumber, password);
 
         if (role.equalsIgnoreCase("Client")) {
@@ -55,18 +55,16 @@ public class SinUp_FromAdmin {
     }
 
     private String generateRegistrationNumber(String role) {
-        Random random = new Random();
         String prefix = role.equalsIgnoreCase("Client") ? "C" : "I";
-        int randomNumber = 1000 + random.nextInt(9000); // 4 أرقام عشوائية
+        int randomNumber = 1000 + RANDOM_GENERATOR.nextInt(9000);
         return prefix + randomNumber;
     }
 
     private String generatePassword() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder password = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 8; i++) { // كلمة مرور مكونة من 8 أحرف
-            password.append(chars.charAt(random.nextInt(chars.length())));
+        for (int i = 0; i < 8; i++) {
+            password.append(chars.charAt(RANDOM_GENERATOR.nextInt(chars.length())));
         }
         return password.toString();
     }

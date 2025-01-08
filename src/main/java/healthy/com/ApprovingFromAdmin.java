@@ -11,17 +11,16 @@ public class ApprovingFromAdmin {
     private static final String INFORMATION_FILE = "src/test/resources/Informations.txt";
     private static final String SIGNUP_FILE = "src/test/resources/Signup.txt";
 
-    public boolean addInstructor(String name, String phoneNumber, String yearsOfExperience, String jobDescription) {
+    // Define a single Random instance to reuse across the class
+    private static final Random RANDOM_GENERATOR = new Random();
 
-        if (name == null || name.isEmpty() ||
-                phoneNumber == null || phoneNumber.isEmpty() ||
-                yearsOfExperience == null || yearsOfExperience.isEmpty() ||
-                jobDescription == null || jobDescription.isEmpty()) {
+    public boolean addInstructor(String name, String phoneNumber, String yearsOfExperience, String jobDescription) {
+        if (isNullOrEmpty(name) || isNullOrEmpty(phoneNumber) ||
+                isNullOrEmpty(yearsOfExperience) || isNullOrEmpty(jobDescription)) {
             setStatus("unacceptable");
             return false;
         }
 
-        // تخزين البيانات في ملف programs.txt
         List<String> approvingData = new ArrayList<>();
         String approvingDataLine = name + ":" + phoneNumber + ":" + yearsOfExperience + ":" + jobDescription;
         approvingData.add(approvingDataLine);
@@ -32,14 +31,10 @@ public class ApprovingFromAdmin {
                 bw.newLine();
             }
 
-            // إنشاء Registration Number وكلمة مرور
             String registrationNumber = generateRegistrationNumber();
             String password = generatePassword();
 
-            // تخزين Registration Number وكلمة المرور في ملف Informations.txt
             saveToInformationFile(registrationNumber, password);
-
-            // تخزين البيانات في ملف Signup.txt
             saveToSignupFile(name, "Instructor", phoneNumber);
 
             setStatus("Accepted");
@@ -54,18 +49,16 @@ public class ApprovingFromAdmin {
     }
 
     private String generateRegistrationNumber() {
-        Random random = new Random();
-        String prefix = "I"; // المدرب يبدأ بحرف I
-        int randomNumber = 1000 + random.nextInt(9000); // 4 أرقام عشوائية
+        String prefix = "I";
+        int randomNumber = 1000 + RANDOM_GENERATOR.nextInt(9000);
         return prefix + randomNumber;
     }
 
     private String generatePassword() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder password = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 8; i++) { // كلمة مرور مكونة من 8 أحرف
-            password.append(chars.charAt(random.nextInt(chars.length())));
+        for (int i = 0; i < 8; i++) {
+            password.append(chars.charAt(RANDOM_GENERATOR.nextInt(chars.length())));
         }
         return password.toString();
     }
@@ -84,6 +77,10 @@ public class ApprovingFromAdmin {
             writer.write(dataLine);
             writer.newLine();
         }
+    }
+
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
     }
 
     public String getStatus() {
