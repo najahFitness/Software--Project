@@ -12,7 +12,7 @@ public class SubscriptionManager {
         clientSubscriptions = new HashMap<>();
         instructorSubscriptions = new HashMap<>();
 
-        // بيانات اشتراك افتراضية
+
         clientSubscriptions.put("john_doe", "Basic");
         clientSubscriptions.put("emma_client", "Standard");
 

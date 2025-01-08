@@ -23,7 +23,7 @@ public class Main {
 
         System.out.println("========== Login System ==========");
 
-        // تسجيل الدخول
+
         System.out.print("Enter your Username: ");
         String username = scanner.nextLine();
 
