@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Chating {
 
-    private static final String UNACCEPTABLE = "unacceptable"; // Define constant for reuse
-    private static final String CHAT_FILE = "src/test/resources/Chat.txt"; // Define constant for file path
+    private static final String UNACCEPTABLE = "unacceptable";
+    private static final String CHAT_FILE = "src/test/resources/Chat.txt";
     private String status;
 
     public boolean addClientMessage(String messageContent, String discussionComment, String feedback, String progressReport) {

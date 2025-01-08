@@ -11,7 +11,7 @@ public class ApprovingFromAdmin {
     private static final String INFORMATION_FILE = "src/test/resources/Informations.txt";
     private static final String SIGNUP_FILE = "src/test/resources/Signup.txt";
 
-    // Define a single Random instance to reuse across the class
+
     private static final Random RANDOM_GENERATOR = new Random();
 
     public boolean addInstructor(String name, String phoneNumber, String yearsOfExperience, String jobDescription) {

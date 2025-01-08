@@ -12,7 +12,7 @@ public class ProgramManagement {
         programs = new ArrayList<>();
         filteredPrograms = new ArrayList<>();
 
-        // Dummy programs
+
         programs.add("Beginner:Intro to Weight Loss:Weight loss:Monday 6 PM");
         programs.add("Intermediate:Strength Bootcamp:Muscle building:Wednesday 7 PM");
         programs.add("Advanced:Advanced Yoga Program:Flexibility:Friday 8 AM");
@@ -24,7 +24,7 @@ public class ProgramManagement {
         for (String program : programs) {
             String[] details = program.split(":");
             if (details[0].equalsIgnoreCase(difficultyLevel)) {
-                filteredPrograms.add(details[1]); // إضافة اسم البرنامج فقط
+                filteredPrograms.add(details[1]);
             }
         }
     }
@@ -34,7 +34,7 @@ public class ProgramManagement {
         for (String program : programs) {
             String[] details = program.split(":");
             if (details[2].equalsIgnoreCase(focusArea)) {
-                filteredPrograms.add(details[1]); // إضافة اسم البرنامج فقط
+                filteredPrograms.add(details[1]);
             }
         }
     }

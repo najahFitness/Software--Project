@@ -7,17 +7,16 @@ public class ContentManager {
 
     private List<String> approvedContent;
     private List<String> rejectedContent;
-    private List<String> pendingContent; // قائمة للمراجعات المعلقة
+    private List<String> pendingContent;
     private List<String> userFeedback;
 
     public ContentManager() {
         approvedContent = new ArrayList<>();
         rejectedContent = new ArrayList<>();
-        pendingContent = new ArrayList<>(); // قائمة المراجعات المعلقة
+        pendingContent = new ArrayList<>();
         userFeedback = new ArrayList<>();
     }
 
-    // إضافة المراجعات المرسلة من FeedbackManagement كـ Pending Content
     public void addPendingContent(String feedback) {
         pendingContent.add(feedback);
     }
@@ -25,11 +24,11 @@ public class ContentManager {
     public String reviewContent(String title, String action) {
         if (action.equalsIgnoreCase("approve")) {
             approvedContent.add(title);
-            pendingContent.remove(title); // إزالة من المعلقة
+            pendingContent.remove(title);
             return "The content titled '" + title + "' has been approved successfully.";
         } else if (action.equalsIgnoreCase("reject")) {
             rejectedContent.add(title);
-            pendingContent.remove(title); // إزالة من المعلقة
+            pendingContent.remove(title);
             return "The content titled '" + title + "' has been rejected successfully.";
         } else {
             return "Invalid action for the content titled '" + title + "'.";

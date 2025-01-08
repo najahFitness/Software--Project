@@ -5,12 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
-public class SignUpFromAdmin { // Updated class name to match the test file and conventions
+public class SignUpFromAdmin {
     private String status;
     private static final String SIGNUP_FILE = "src/test/resources/Signup.txt";
     private static final String INFORMATION_FILE = "src/test/resources/Informations.txt";
 
-    // Shared Random instance
+
     private static final Random RANDOM_GENERATOR = new Random();
 
     public boolean isSinUP(String name, String role, String phonenumber) {

@@ -15,27 +15,27 @@ public class Chating_test {
 
     @Given("the admin is logged into the system to interact with clients")
     public void the_admin_is_logged_into_the_system_to_interact_with_clients() {
-        chat = new Chating(); // Create a new instance of the Chating class
+        chat = new Chating();
     }
 
     @When("the admin sends a message to the client 'messageContent' with {string} for chating")
     public void the_admin_sends_a_message_to_the_client_with_for_chating(String message) {
-        messageContent = message; // Store the message content
+        messageContent = message;
     }
 
     @When("the admin posts a discussion forum comment 'discussionComment' with {string} for chating")
     public void the_admin_posts_a_discussion_forum_comment_with_for_chating(String comment) {
-        discussionComment = comment; // Store the discussion comment
+        discussionComment = comment;
     }
 
     @When("the admin provides feedback 'feedback' with {string} for chating")
     public void the_admin_provides_feedback_with_for_chating(String feedbackMessage) {
-        feedback = feedbackMessage; // Store the feedback message
+        feedback = feedbackMessage;
     }
 
     @When("the admin prepares a progress report 'progressReport' with {string} for chating")
     public void the_admin_prepares_a_progress_report_with_for_chating(String report) {
-        progressReport = report; // Store the progress report
+        progressReport = report;
     }
 
     @When("the admin sends the progress report to the client")

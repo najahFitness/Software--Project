@@ -21,16 +21,15 @@ public class updateFromAdmin {
         }
 
         try {
-            // تحقق إذا كان المستخدم موجودًا في ملف Informations.txt
             if (!isUserExist(reg)) {
                 setStatus(USER_NOT_FOUND);
                 return false;
             }
 
-            // تحديث ملف Signup.txt
+
             List<String> updatedSignupLines = processSignupFileAndUpdate(reg, name, phonenumber, role);
 
-            // كتابة التعديلات إلى ملف Signup.txt
+
             if (!updatedSignupLines.isEmpty()) {
                 writeToFile(SIGNUP_FILE, updatedSignupLines);
                 setStatus(STATUS_UPDATE_SUCCESS);
@@ -74,12 +73,12 @@ public class updateFromAdmin {
     private String processSignupLine(String line, String reg, String name, String phonenumber, String role) {
         String[] credentials = line.split(":");
         if (credentials.length != 3 || !credentials[0].equals(reg)) {
-            return line; // إذا لم يكن الرقم مطابقًا، نرجع السطر كما هو
+            return line;
         }
 
         return reg + ":" +
                 (isEmpty(phonenumber) ? credentials[2] : phonenumber) + ":" +
-                (isEmpty(role) ? credentials[1] : role); // تعديل البيانات بناءً على المدخلات
+                (isEmpty(role) ? credentials[1] : role);
     }
 
     private void writeToFile(String filePath, List<String> updatedLines) throws IOException {

@@ -32,3 +32,27 @@ Age: 25, Weight: 70kg, Height: 175cm, Fitness Goals: Build muscle, Dietary Prefe
 Age: 30, Weight: 85kg, Height: 180cm, Fitness Goals: Lose weight, Dietary Preferences: Vegan
 Age: 35, Weight: 68kg, Height: 160cm, Fitness Goals: Maintain current fitness, Dietary Preferences: Gluten-free
 Age: 28, Weight: 75kg, Height: 170cm, Fitness Goals: Improve stamina, Dietary Preferences: None
+Age: 25, Weight: 70kg, Height: 175cm, Fitness Goals: Build muscle, Dietary Preferences: High protein
+Age: 30, Weight: 85kg, Height: 180cm, Fitness Goals: Lose weight, Dietary Preferences: Vegan
+Age: 35, Weight: 68kg, Height: 160cm, Fitness Goals: Maintain current fitness, Dietary Preferences: Gluten-free
+Age: 28, Weight: 75kg, Height: 170cm, Fitness Goals: Improve stamina, Dietary Preferences: None
+Age: 25, Weight: 70kg, Height: 175cm, Fitness Goals: Build muscle, Dietary Preferences: High protein
+Age: 30, Weight: 85kg, Height: 180cm, Fitness Goals: Lose weight, Dietary Preferences: Vegan
+Age: 35, Weight: 68kg, Height: 160cm, Fitness Goals: Maintain current fitness, Dietary Preferences: Gluten-free
+Age: 28, Weight: 75kg, Height: 170cm, Fitness Goals: Improve stamina, Dietary Preferences: None
+Age: 25, Weight: 70kg, Height: 175cm, Fitness Goals: Build muscle, Dietary Preferences: High protein
+Age: 30, Weight: 85kg, Height: 180cm, Fitness Goals: Lose weight, Dietary Preferences: Vegan
+Age: 35, Weight: 68kg, Height: 160cm, Fitness Goals: Maintain current fitness, Dietary Preferences: Gluten-free
+Age: 28, Weight: 75kg, Height: 170cm, Fitness Goals: Improve stamina, Dietary Preferences: None
+Age: 25, Weight: 70kg, Height: 175cm, Fitness Goals: Build muscle, Dietary Preferences: High protein
+Age: 30, Weight: 85kg, Height: 180cm, Fitness Goals: Lose weight, Dietary Preferences: Vegan
+Age: 35, Weight: 68kg, Height: 160cm, Fitness Goals: Maintain current fitness, Dietary Preferences: Gluten-free
+Age: 28, Weight: 75kg, Height: 170cm, Fitness Goals: Improve stamina, Dietary Preferences: None
+Age: 25, Weight: 70kg, Height: 175cm, Fitness Goals: Build muscle, Dietary Preferences: High protein
+Age: 30, Weight: 85kg, Height: 180cm, Fitness Goals: Lose weight, Dietary Preferences: Vegan
+Age: 35, Weight: 68kg, Height: 160cm, Fitness Goals: Maintain current fitness, Dietary Preferences: Gluten-free
+Age: 28, Weight: 75kg, Height: 170cm, Fitness Goals: Improve stamina, Dietary Preferences: None
+Age: 25, Weight: 70kg, Height: 175cm, Fitness Goals: Build muscle, Dietary Preferences: High protein
+Age: 30, Weight: 85kg, Height: 180cm, Fitness Goals: Lose weight, Dietary Preferences: Vegan
+Age: 35, Weight: 68kg, Height: 160cm, Fitness Goals: Maintain current fitness, Dietary Preferences: Gluten-free
+Age: 28, Weight: 75kg, Height: 170cm, Fitness Goals: Improve stamina, Dietary Preferences: None

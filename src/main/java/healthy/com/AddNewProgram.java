@@ -9,20 +9,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AddNewProgram {
-//a
-    // Define constants for repeated literals
+
     private static final String STATUS_UNACCEPTABLE = "unacceptable";
     private static final String STATUS_PROGRAM_ADDED = "Program added successfully";
     private static final String FILE_PATH = "src/test/resources/ApprovingFitnessProgram.txt";
 
-    // Logger instance
+
     private static final Logger logger = Logger.getLogger(AddNewProgram.class.getName());
 
     private String status;
 
     public boolean addFitnessProgram(String programTitle, String duration, String difficultyLevel, String goals, String price, String schedule) {
 
-        // Validate inputs
+
         if (programTitle == null || programTitle.isEmpty() ||
                 duration == null || duration.isEmpty() ||
                 difficultyLevel == null || difficultyLevel.isEmpty() ||
@@ -37,7 +36,6 @@ public class AddNewProgram {
         String approvingDataLine = programTitle + ":" + duration + ":" + difficultyLevel + ":" + goals + ":" + price + ":" + schedule;
         approvingData.add(approvingDataLine);
 
-        // Write to file
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
 
             for (String updatedLine : approvingData) {
