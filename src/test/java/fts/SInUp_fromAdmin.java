@@ -1,6 +1,6 @@
 package fts;
 
-import healthy.com.SinUp_FromAdmin;
+import healthy.com.SignUpFromAdmin;
 import io.cucumber.java.en.*;
 
 import static org.junit.Assert.assertEquals;
@@ -9,11 +9,11 @@ public class SInUp_fromAdmin {
     private String name;
     private String role;
     private String phonenumber;
-    private SinUp_FromAdmin op;
+    private SignUpFromAdmin op;
 
     @Given("admin is logged in to the system")
     public void admin_is_logged_in_to_the_system() {
-        op = new SinUp_FromAdmin(); // إنشاء كائن من الفئة SinUp_FromAdmin
+        op = new SignUpFromAdmin(); // إنشاء كائن من الفئة SignUpFromAdmin
     }
 
     @When("admin fills in {string} with {string} for the client or instructor")

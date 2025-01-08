@@ -5,7 +5,6 @@ import io.cucumber.java.en.*;
 
 import static org.junit.Assert.assertEquals;
 
-
 public class AddnNewprogram_test {
     private String programtitle;
     private String duration;
@@ -15,26 +14,24 @@ public class AddnNewprogram_test {
     private String schedule;
     public AddNewProgram newProgram;
 
-
     @Given("admin is logged in to the system for adding new fitness programs")
     public void admin_is_logged_in_to_the_system_for_adding_new_fitness_programs() {
         newProgram = new AddNewProgram();
-
     }
 
     @When("admin fills in {string} with {string} for addition")
     public void admin_fills_in_with_for_addition(String string, String string2) {
-        setField(string,string2);
+        setField(string, string2);
     }
 
     @When("admin sets {string} to {string} for group sessions addition")
     public void admin_sets_to_for_group_sessions_addition(String string, String string2) {
-        setField(string,string2);
+        setField(string, string2);
     }
 
     @When("admin clicks on Add Program")
     public void admin_clicks_on_add_program() {
-       newProgram.addFitnessProgram(programtitle, duration, difficultylevel, goals, price, schedule);
+        newProgram.addFitnessProgram(programtitle, duration, difficultylevel, goals, price, schedule);
     }
 
     @Then("admin should see {string}")
@@ -57,13 +54,13 @@ public class AddnNewprogram_test {
                 goals = value;
                 break;
             case "price":
-                    price = value;
-                    break;
-                    case "schedule":
-                        schedule = value;
-                        break;
+                price = value;
+                break;
+            case "schedule":
+                schedule = value;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected field: " + field);
         }
     }
-
-
 }

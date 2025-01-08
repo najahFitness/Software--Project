@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
-public class SinUp_FromAdmin {
+public class SignUpFromAdmin { // Updated class name to match the test file and conventions
     private String status;
     private static final String SIGNUP_FILE = "src/test/resources/Signup.txt";
     private static final String INFORMATION_FILE = "src/test/resources/Informations.txt";
@@ -30,7 +30,11 @@ public class SinUp_FromAdmin {
             setStatus("Client added successfully");
         } else if (role.equalsIgnoreCase("Instructor")) {
             setStatus("Instructor added successfully");
+        } else {
+            setStatus("Unknown role");
+            return false;
         }
+
         return true;
     }
 
@@ -40,7 +44,7 @@ public class SinUp_FromAdmin {
             writer.write(dataLine);
             writer.newLine();
         } catch (IOException e) {
-            System.err.println("Error writing to Signup file: " + e.getMessage());
+            setStatus("Error saving to Signup file");
         }
     }
 
@@ -50,7 +54,7 @@ public class SinUp_FromAdmin {
             writer.write(dataLine);
             writer.newLine();
         } catch (IOException e) {
-            System.err.println("Error writing to Informations file: " + e.getMessage());
+            setStatus("Error saving to Informations file");
         }
     }
 
