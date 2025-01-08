@@ -13,13 +13,11 @@ public class Main {
         ApprovingFromAdmin approver = new ApprovingFromAdmin();
         ProgramMonitor programMonitor = new ProgramMonitor();
         ContentManager contentManager = new ContentManager();
-        FeedbackManagement feedbackManagement = new FeedbackManagement();
-        SubscriptionManager subscriptionManager = new SubscriptionManager();
-        AddNewProgram addNewProgram = new AddNewProgram(); // لإضافة البرامج
-        DeleteProgram deleteProgram = new DeleteProgram(); // لحذف البرامج
-        UpdateProgram updateProgram = new UpdateProgram(); // لتحديث البرامج
-        AccountManagement accountManagement = new AccountManagement(); // لإدارة الحسابات
-        ProgramManagement programManagement = new ProgramManagement();
+        AddNewProgram addNewProgram = new AddNewProgram();
+
+
+
+
         System.out.println("========== Login System ==========");
 
         // تسجيل الدخول
@@ -35,11 +33,13 @@ public class Main {
         if (loginSuccessful) {
             if (username.startsWith("A")) {
                 System.out.println("Login successful! Welcome Admin.");
-                displayAdminMenu(scanner, signUp, updater, approver, programMonitor, contentManager, feedbackManagement, subscriptionManager, addNewProgram, deleteProgram, updateProgram);
-            } else if (username.startsWith("C")) {
-                System.out.println("Login successful! Welcome Client.");
-                displayClientMenu(scanner, accountManagement, programManagement);
-
+                displayAdminMenu(scanner, signUp, updater, approver, programMonitor, contentManager);
+            }else if (username.startsWith("I")) {
+                System.out.println("Login successful! Welcome Instructor.");
+                displayInstructorMenu(scanner, addNewProgram);
+            }  else if (username.startsWith("I")) {
+                System.out.println("Login successful! Welcome Instructor.");
+                // لاحقًا سنضيف منيو المدرب
             } else {
                 System.out.println("Login successful! Welcome User.");
             }
@@ -50,10 +50,7 @@ public class Main {
 
     // عرض قائمة الأدمن
     private static void displayAdminMenu(Scanner scanner, SinUp_FromAdmin signUp, updateFromAdmin updater,
-                                         ApprovingFromAdmin approver, ProgramMonitor programMonitor,
-                                         ContentManager contentManager, FeedbackManagement feedbackManagement,
-                                         SubscriptionManager subscriptionManager, AddNewProgram addNewProgram,
-                                         DeleteProgram deleteProgram, UpdateProgram updateProgram) {
+                                         ApprovingFromAdmin approver, ProgramMonitor programMonitor, ContentManager contentManager) {
         while (true) {
             System.out.println("========== Admin Menu ==========");
             System.out.println("1. Add New Instructor or Client");
@@ -64,21 +61,96 @@ public class Main {
             System.out.println("6. Track Program Status");
             System.out.println("7. Manage Feedback and Suggestions");
             System.out.println("8. Manage Subscription Plans");
-            System.out.println("9. Add New Fitness Program");
-            System.out.println("10. Delete Fitness Program");
-            System.out.println("11. Update Fitness Program");
-            System.out.println("12. Exit");
+            System.out.println("9. Exit");
             System.out.print("Choose an option: ");
+
 
             int choice = Integer.parseInt(scanner.nextLine());
 
+
+            FeedbackManagement feedbackManagement = new FeedbackManagement();
+            SubscriptionManager subscriptionManager = new SubscriptionManager();
             switch (choice) {
+                case 1 -> {
+                    System.out.println("=== Add New Instructor or Client ===");
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("Enter Role (Client/Instructor): ");
+                    String role = scanner.nextLine();
+
+                    System.out.print("Enter Phone Number: ");
+                    String phoneNumber = scanner.nextLine();
+
+                    boolean isAdded = signUp.isSinUP(name, role, phoneNumber);
+
+                    System.out.println(isAdded ? "Operation Successful: " + signUp.getStatus()
+                            : "Operation Failed: " + signUp.getStatus());
+                }
+                case 2 -> {
+                    System.out.println("=== Update Existing User ===");
+                    System.out.print("Enter Registration Number: ");
+                    String regNumber = scanner.nextLine();
+
+                    System.out.print("Enter New Name (or press Enter to keep current): ");
+                    String newName = scanner.nextLine();
+
+                    System.out.print("Enter New Phone Number (or press Enter to keep current): ");
+                    String newPhoneNumber = scanner.nextLine();
+
+                    System.out.print("Enter New Role (Client/Instructor or press Enter to keep current): ");
+                    String newRole = scanner.nextLine();
+
+                    boolean isUpdated = updater.updating(regNumber, newName, null, newPhoneNumber, newRole);
+
+                    System.out.println(isUpdated ? "Update Successful: " + updater.getStatus()
+                            : "Update Failed: " + updater.getStatus());
+                }
+                case 3 -> {
+                    System.out.println("=== Approve New Instructor ===");
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("Enter Phone Number: ");
+                    String phoneNumber = scanner.nextLine();
+
+                    System.out.print("Enter Years of Experience: ");
+                    String yearsOfExperience = scanner.nextLine();
+
+                    System.out.print("Enter Job Description: ");
+                    String jobDescription = scanner.nextLine();
+
+                    boolean isApproved = approver.addInstructor(name, phoneNumber, yearsOfExperience, jobDescription);
+
+                    System.out.println(isApproved ? "Operation Successful: " + approver.getStatus()
+                            : "Operation Failed: " + approver.getStatus());
+                }
+                case 4 -> {
+                    System.out.println("=== View Program Statistics ===");
+                    System.out.print("Enter Program Name: ");
+                    String programName = scanner.nextLine();
+                    String stats = programMonitor.getProgramStatistics(programName);
+                    System.out.println(stats);
+                }
+                case 5 -> {
+                    System.out.println("=== Generate Program Report ===");
+                    System.out.print("Enter Report Type (Revenue and Attendance/Client Progress): ");
+                    String reportType = scanner.nextLine();
+                    String report = programMonitor.generateReport(reportType);
+                    System.out.println(report);
+                }
+                case 6 -> {
+                    System.out.println("=== Track Program Status ===");
+                    System.out.print("Enter Program Name: ");
+                    String programName = scanner.nextLine();
+                    System.out.print("Enter Program Status (Active/Completed): ");
+                    String programStatus = scanner.nextLine();
+                    String statusDetails = programMonitor.trackProgramStatus(programStatus, programName);
+                    System.out.println(statusDetails);
+                }
                 case 7 -> manageFeedback(scanner, feedbackManagement);
                 case 8 -> manageSubscriptions(scanner, subscriptionManager);
-                case 9 -> addFitnessProgram(scanner, addNewProgram);
-                case 10 -> deleteFitnessProgram(scanner, deleteProgram);
-                case 11 -> updateFitnessProgram(scanner, updateProgram);
-                case 12 -> {
+                case 9 -> {
                     System.out.println("Exiting Admin Menu...");
                     return;
                 }
@@ -86,23 +158,29 @@ public class Main {
             }
         }
     }
-
-    // قائمة العميل
-    private static void displayClientMenu(Scanner scanner, AccountManagement accountManagement, ProgramManagement programManagement) {
+    private static void displayInstructorMenu(Scanner scanner, AddNewProgram addNewProgram) {
         while (true) {
-            System.out.println("========== Client Menu ==========");
-            System.out.println("1. Create and Customize Profile");
-            System.out.println("2. Explore and Enroll in Programs");
-            System.out.println("3. Exit");
+            System.out.println("========== Instructor Menu ==========");
+            System.out.println("1. Add New Fitness Program");
+            System.out.println("2. Delete Fitness Program");
+            System.out.println("3. Update Fitness Program");
+            System.out.println("4. Interact with Clients");
+            System.out.println("5. Exit");
             System.out.print("Choose an option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
 
+            DeleteProgram deleteProgram = new DeleteProgram();
+            UpdateProgram updateProgram = new UpdateProgram();
+            Chating chating=new Chating();
             switch (choice) {
-                case 1 -> createAndCustomizeProfile(scanner, accountManagement);
-                case 2 -> exploreAndEnrollInPrograms(scanner, programManagement);
-                case 3 -> {
-                    System.out.println("Exiting Client Menu...");
+
+                case 1 -> addFitnessProgram(scanner, addNewProgram);
+                case 2 -> deleteFitnessProgram(scanner, deleteProgram);
+                case 3 -> updateFitnessProgram(scanner, updateProgram);
+                case 4 -> interactWithClients(scanner, chating);
+                case 5-> {
+                    System.out.println("Exiting Instructor Menu...");
                     return;
                 }
                 default -> System.out.println("Invalid option. Please try again.");
@@ -110,85 +188,6 @@ public class Main {
         }
     }
 
-    // وظيفة إضافة برنامج لياقة بدنية
-    private static void addFitnessProgram(Scanner scanner, AddNewProgram addNewProgram) {
-        System.out.println("=== Add New Fitness Program ===");
-
-        System.out.print("Enter Program Title: ");
-        String programTitle = scanner.nextLine();
-
-        System.out.print("Enter Duration (e.g., 4 months): ");
-        String duration = scanner.nextLine();
-
-        System.out.print("Enter Difficulty Level (Easy/Medium/Hard): ");
-        String difficultyLevel = scanner.nextLine();
-
-        System.out.print("Enter Goals: ");
-        String goals = scanner.nextLine();
-
-        System.out.print("Enter Price: ");
-        String price = scanner.nextLine();
-
-        System.out.print("Enter Schedule (e.g., Online, Monday 5pm): ");
-        String schedule = scanner.nextLine();
-
-        boolean success = addNewProgram.addFitnessProgram(programTitle, duration, difficultyLevel, goals, price, schedule);
-
-        if (success) {
-            System.out.println("Program added successfully!");
-        } else {
-            System.out.println("Failed to add program: " + addNewProgram.getStatus());
-        }
-    }
-
-    // وظيفة حذف برنامج لياقة بدنية
-    private static void deleteFitnessProgram(Scanner scanner, DeleteProgram deleteProgram) {
-        System.out.println("=== Delete Fitness Program ===");
-
-        System.out.print("Enter Program Title to Delete: ");
-        String programTitle = scanner.nextLine();
-
-        boolean success = deleteProgram.deleteFitnessProgram(programTitle);
-
-        if (success) {
-            System.out.println("Program deleted successfully!");
-        } else {
-            System.out.println("Failed to delete program: " + deleteProgram.getStatus());
-        }
-    }
-
-    // وظيفة تحديث برنامج لياقة بدنية
-    private static void updateFitnessProgram(Scanner scanner, UpdateProgram updateProgram) {
-        System.out.println("=== Update Fitness Program ===");
-
-        System.out.print("Enter Program Title: ");
-        String programTitle = scanner.nextLine();
-
-        System.out.print("Enter New Duration (leave blank to keep current): ");
-        String duration = scanner.nextLine();
-
-        System.out.print("Enter New Difficulty Level (leave blank to keep current): ");
-        String difficultyLevel = scanner.nextLine();
-
-        System.out.print("Enter New Goals (leave blank to keep current): ");
-        String goals = scanner.nextLine();
-
-        System.out.print("Enter New Price (leave blank to keep current): ");
-        String price = scanner.nextLine();
-
-        System.out.print("Enter New Schedule (leave blank to keep current): ");
-        String schedule = scanner.nextLine();
-
-        boolean success = updateProgram.updateProgram(programTitle, duration, difficultyLevel, goals, price, schedule);
-
-        if (success) {
-            System.out.println("Program updated successfully!");
-        } else {
-            System.out.println("Failed to update program: " + updateProgram.getStatus());
-        }
-    }
-
-    // إدارة Feedback
     private static void manageFeedback(Scanner scanner, FeedbackManagement feedbackManagement) {
         while (true) {
             System.out.println("=== Manage Feedback and Suggestions ===");
@@ -240,8 +239,6 @@ public class Main {
             }
         }
     }
-
-    // إدارة الاشتراكات
     private static void manageSubscriptions(Scanner scanner, SubscriptionManager subscriptionManager) {
         while (true) {
             System.out.println("=== Manage Subscription Plans ===");
@@ -279,58 +276,111 @@ public class Main {
             }
         }
     }
-    private static void exploreAndEnrollInPrograms(Scanner scanner, ProgramManagement programManagement) {
-        System.out.println("=== Explore and Enroll in Programs ===");
+    private static void addFitnessProgram(Scanner scanner, AddNewProgram addNewProgram) {
+        System.out.println("=== Add New Fitness Program ===");
 
-        System.out.print("Enter Difficulty Level (Beginner, Intermediate, Advanced): ");
-        String difficultyLevel = scanner.nextLine();
-
-        System.out.print("Enter Focus Area (e.g., Weight loss, Muscle building, Flexibility): ");
-        String focusArea = scanner.nextLine();
-
-        // تصفية البرامج بناءً على الفلاتر
-        programManagement.filterPrograms(difficultyLevel, focusArea);
-
-        // طلب إدخال عنوان البرنامج للتسجيل
-        System.out.print("Enter Program Title to Enroll: ");
+        System.out.print("Enter Program Title: ");
         String programTitle = scanner.nextLine();
 
-        // محاولة التسجيل في البرنامج
-        String enrollmentResult = programManagement.enrollInProgram(programTitle);
+        System.out.print("Enter Duration (e.g., 4 months): ");
+        String duration = scanner.nextLine();
 
-        // عرض النتيجة
-        System.out.println(enrollmentResult);
+        System.out.print("Enter Difficulty Level (Easy/Medium/Hard): ");
+        String difficultyLevel = scanner.nextLine();
 
-        // التأكيد على التسجيل إذا كان ناجحًا
-        if (enrollmentResult.equals("Enrollment successful")) {
-            String confirmationResult = programManagement.confirmEnrollment(programTitle);
-            System.out.println(confirmationResult);
+        System.out.print("Enter Goals: ");
+        String goals = scanner.nextLine();
+
+        System.out.print("Enter Price: ");
+        String price = scanner.nextLine();
+
+        System.out.print("Enter Schedule (e.g., Online, Monday 5pm): ");
+        String schedule = scanner.nextLine();
+
+        boolean success = addNewProgram.addFitnessProgram(programTitle, duration, difficultyLevel, goals, price, schedule);
+
+        if (success) {
+            System.out.println("Program added successfully!");
+        } else {
+            System.out.println("Failed to add program: " + addNewProgram.getStatus());
         }
     }
+    private static void deleteFitnessProgram(Scanner scanner, DeleteProgram deleteProgram) {
+        System.out.println("=== Delete Fitness Program ===");
 
-    // وظيفة إنشاء وتخصيص الملف الشخصي
-    private static void createAndCustomizeProfile(Scanner scanner, AccountManagement accountManagement) {
-        System.out.println("=== Create and Customize Profile ===");
+        System.out.print("Enter Program Title to Delete: ");
+        String programTitle = scanner.nextLine();
 
-        System.out.print("Enter Age: ");
-        int age = Integer.parseInt(scanner.nextLine());
+        boolean success = deleteProgram.deleteFitnessProgram(programTitle);
 
-        System.out.print("Enter Weight (kg): ");
-        int weight = Integer.parseInt(scanner.nextLine());
+        if (success) {
+            System.out.println("Program deleted successfully!");
+        } else {
+            System.out.println("Failed to delete program: " + deleteProgram.getStatus());
+        }
+    }
+    private static void updateFitnessProgram(Scanner scanner, UpdateProgram updateProgram) {
+        System.out.println("=== Update Fitness Program ===");
 
-        System.out.print("Enter Height (cm): ");
-        int height = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter Program Title: ");
+        String programTitle = scanner.nextLine();
 
-        System.out.print("Enter Fitness Goals: ");
-        String fitnessGoals = scanner.nextLine();
+        System.out.print("Enter New Duration (leave blank to keep current): ");
+        String duration = scanner.nextLine();
 
-        System.out.print("Enter Dietary Preferences (leave blank for None): ");
-        String dietaryPreferences = scanner.nextLine();
+        System.out.print("Enter New Difficulty Level (leave blank to keep current): ");
+        String difficultyLevel = scanner.nextLine();
 
-        // استدعاء كلاس إدارة الحساب لإنشاء الملف الشخصي
-        String result = accountManagement.createProfile(age, weight, height, fitnessGoals, dietaryPreferences.isEmpty() ? "None" : dietaryPreferences);
+        System.out.print("Enter New Goals (leave blank to keep current): ");
+        String goals = scanner.nextLine();
 
-        // عرض النتيجة للمستخدم
-        System.out.println(result);
+        System.out.print("Enter New Price (leave blank to keep current): ");
+        String price = scanner.nextLine();
+
+        System.out.print("Enter New Schedule (leave blank to keep current): ");
+        String schedule = scanner.nextLine();
+
+        boolean success = updateProgram.updateProgram(programTitle, duration, difficultyLevel, goals, price, schedule);
+
+        if (success) {
+            System.out.println("Program updated successfully!");
+        } else {
+            System.out.println("Failed to update program: " + updateProgram.getStatus());
+        }
+    }
+    private static void interactWithClients(Scanner scanner, Chating chating) {
+        System.out.println("=== Enhanced Client Interaction ===");
+
+        System.out.print("Enter message to the client (or press Enter to skip): ");
+        String messageContent = scanner.nextLine();
+
+        System.out.print("Enter discussion comment (or press Enter to skip): ");
+        String discussionComment = scanner.nextLine();
+
+        System.out.print("Enter feedback (or press Enter to skip): ");
+        String feedback = scanner.nextLine();
+
+        System.out.print("Enter progress report (or press Enter to skip): ");
+        String progressReport = scanner.nextLine();
+
+        // التحقق إذا كان أي من المدخلات غير فارغ
+        if (messageContent.isEmpty() && discussionComment.isEmpty() && feedback.isEmpty() && progressReport.isEmpty()) {
+            System.out.println("No interaction was provided.");
+            return;
+        }
+
+        // إرسال الرسالة وإدارة الحالة
+        boolean success = chating.addClientMessage(
+                messageContent.isEmpty() ? "No message provided" : messageContent,
+                discussionComment.isEmpty() ? "No discussion comment provided" : discussionComment,
+                feedback.isEmpty() ? "No feedback provided" : feedback,
+                progressReport.isEmpty() ? "No progress report provided" : progressReport
+        );
+
+        if (success) {
+            System.out.println("Client interaction completed successfully!");
+        } else {
+            System.out.println("Failed to complete client interaction: " + chating.getStatus());
+        }
     }
 }
