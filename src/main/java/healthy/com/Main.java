@@ -1,5 +1,6 @@
 package healthy.com;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -14,6 +15,7 @@ public class Main {
         ProgramMonitor programMonitor = new ProgramMonitor();
         ContentManager contentManager = new ContentManager();
         AddNewProgram addNewProgram = new AddNewProgram();
+        AccountManagement accountManagement = new AccountManagement();
 
 
 
@@ -37,15 +39,13 @@ public class Main {
             }else if (username.startsWith("I")) {
                 System.out.println("Login successful! Welcome Instructor.");
                 displayInstructorMenu(scanner, addNewProgram);
-            }  else if (username.startsWith("I")) {
-                System.out.println("Login successful! Welcome Instructor.");
-                // لاحقًا سنضيف منيو المدرب
-            } else {
-                System.out.println("Login successful! Welcome User.");
+            }   else if (username.startsWith("C")) {
+                System.out.println("Login successful! Welcome Client.");
+
+                displayClientMenu(scanner, accountManagement);
             }
-        } else {
-            System.out.println("Login failed! " + userLogin.getStatus());
         }
+
     }
 
     // عرض قائمة الأدمن
@@ -187,15 +187,47 @@ public class Main {
             }
         }
     }
+    private static void displayClientMenu(Scanner scanner, AccountManagement accountManagement) {
+        ProgramManagement programManagement = new ProgramManagement();
+        ConsoleDisplay console = new ConsoleDisplayImpl(); // استخدام ConsoleDisplayImpl
+        ProgressManagement progressManagement = new ProgressManagement(console);
+        FeedbackManagement feedbackManagement = new FeedbackManagement(); // إنشاء كائن FeedbackManagement
+
+        while (true) {
+            System.out.println("========== Client Menu ==========");
+            System.out.println("1. Create and Customize Profile");
+            System.out.println("2. Explore Programs by Filters");
+            System.out.println("3. Progress Tracking");
+            System.out.println("4. Add Feedback");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1 -> createAndCustomizeProfile(scanner, accountManagement);
+                case 2 -> explorePrograms(scanner, programManagement);
+                case 3 -> progressTrackingMenu(scanner, progressManagement);
+                case 4 -> addClientFeedback(scanner, feedbackManagement); // استدعاء الدالة الجديدة
+                case 5 -> {
+                    System.out.println("Exiting Client Menu...");
+                    return;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+
+
 
     private static void manageFeedback(Scanner scanner, FeedbackManagement feedbackManagement) {
         while (true) {
             System.out.println("=== Manage Feedback and Suggestions ===");
             System.out.println("1. Add Feedback");
-            System.out.println("2. Add Suggestion");
-            System.out.println("3. Display All Feedback and Suggestions");
-            System.out.println("4. Save Feedback and Suggestions");
-            System.out.println("5. Back to Main Menu");
+            System.out.println("2. Display All Feedback");
+            System.out.println("3. Save Feedback to File");
+            System.out.println("4. Back to Main Menu");
             System.out.print("Choose an option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -209,29 +241,28 @@ public class Main {
                     int rating = Integer.parseInt(scanner.nextLine());
                     System.out.print("Enter Program Review: ");
                     String review = scanner.nextLine();
-                    feedbackManagement.addFeedback(programName, rating, review);
-                    System.out.println("Feedback added successfully.");
-                }
-                case 2 -> {
-                    System.out.println("=== Add Suggestion ===");
-                    System.out.print("Enter Program Name: ");
-                    String programName = scanner.nextLine();
                     System.out.print("Enter Suggestion: ");
                     String suggestion = scanner.nextLine();
-                    feedbackManagement.addSuggestion(programName, suggestion);
-                    System.out.println("Suggestion added successfully.");
-                }
-                case 3 -> {
-                    System.out.println("=== Display All Feedback and Suggestions ===");
-                    String allFeedback = feedbackManagement.displayAllFeedback();
-                    System.out.println(allFeedback);
-                }
-                case 4 -> {
-                    System.out.println("=== Save Feedback and Suggestions ===");
-                    String saveResult = feedbackManagement.saveFeedbackAndSuggestions();
+
+                    // إضافة التعليق
+                    feedbackManagement.addFeedback(programName, rating, review, suggestion);
+                    System.out.println("Feedback added successfully.");
+
+                    // حفظ التعليق في الملف
+                    String saveResult = feedbackManagement.saveFeedback();
                     System.out.println(saveResult);
                 }
-                case 5 -> {
+                case 2 -> {
+                    System.out.println("=== Display All Feedback ===");
+                    String allFeedback = feedbackManagement.readFeedbackFromFile(); // قراءة من الملف
+                    System.out.println(allFeedback);
+                }
+                case 3 -> {
+                    System.out.println("=== Save Feedback to File ===");
+                    String saveResult = feedbackManagement.saveFeedback();
+                    System.out.println(saveResult);
+                }
+                case 4 -> {
                     System.out.println("Returning to Main Menu...");
                     return;
                 }
@@ -239,6 +270,9 @@ public class Main {
             }
         }
     }
+
+
+
     private static void manageSubscriptions(Scanner scanner, SubscriptionManager subscriptionManager) {
         while (true) {
             System.out.println("=== Manage Subscription Plans ===");
@@ -383,4 +417,128 @@ public class Main {
             System.out.println("Failed to complete client interaction: " + chating.getStatus());
         }
     }
+    private static void createAndCustomizeProfile(Scanner scanner, AccountManagement accountManagement) {
+        System.out.println("=== Create and Customize Profile ===");
+
+        System.out.print("Enter Age: ");
+        int age = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Enter Weight (kg): ");
+        int weight = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Enter Height (cm): ");
+        int height = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Enter Fitness Goals: ");
+        String fitnessGoals = scanner.nextLine();
+
+        System.out.print("Enter Dietary Preferences (leave blank for None): ");
+        String dietaryPreferences = scanner.nextLine();
+
+        // استدعاء كلاس إدارة الحساب لإنشاء الملف الشخصي
+        String result = accountManagement.createProfile(age, weight, height, fitnessGoals, dietaryPreferences.isEmpty() ? "None" : dietaryPreferences);
+
+        // عرض النتيجة للمستخدم
+        System.out.println(result);
+    }
+    private static void explorePrograms(Scanner scanner, ProgramManagement programManagement) {
+        System.out.println("=== Explore Programs ===");
+        System.out.println("Choose Search Criteria:");
+        System.out.println("1. By Difficulty Level");
+        System.out.println("2. By Focus Area");
+        System.out.print("Enter your choice: ");
+
+        int choice = Integer.parseInt(scanner.nextLine());
+
+        switch (choice) {
+            case 1 -> {
+                System.out.print("Enter Difficulty Level (Beginner, Intermediate, Advanced): ");
+                String difficultyLevel = scanner.nextLine();
+                programManagement.filterProgramsByDifficulty(difficultyLevel);
+
+                List<String> filteredPrograms = programManagement.getFilteredPrograms();
+                if (!filteredPrograms.isEmpty()) {
+                    System.out.println("Matching Programs:");
+                    for (String program : filteredPrograms) {
+                        System.out.println(program);
+                    }
+                } else {
+                    System.out.println("No matching programs found.");
+                }
+            }
+            case 2 -> {
+                System.out.print("Enter Focus Area (e.g., Weight loss, Muscle building, Flexibility): ");
+                String focusArea = scanner.nextLine();
+                programManagement.filterProgramsByFocusArea(focusArea);
+
+                List<String> filteredPrograms = programManagement.getFilteredPrograms();
+                if (!filteredPrograms.isEmpty()) {
+                    System.out.println("Matching Programs:");
+                    for (String program : filteredPrograms) {
+                        System.out.println(program);
+                    }
+                } else {
+                    System.out.println("No matching programs found.");
+                }
+            }
+            default -> System.out.println("Invalid choice. Returning to menu.");
+        }
+    }
+    private static void progressTrackingMenu(Scanner scanner, ProgressManagement progressManagement) {
+        while (true) {
+            progressManagement.displayMenu();
+            System.out.print("Choose an option: ");
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1 -> {
+                    System.out.println("=== View Current Progress ===");
+                    System.out.println("Choose a metric to view:");
+                    System.out.println("1. Weight");
+                    System.out.println("2. BMI");
+                    System.out.println("3. Attendance");
+                    System.out.print("Enter your choice: ");
+                    int metricChoice = Integer.parseInt(scanner.nextLine());
+
+                    switch (metricChoice) {
+                        case 1 -> progressManagement.displayMetric("Weight");
+                        case 2 -> progressManagement.displayMetric("BMI");
+                        case 3 -> progressManagement.displayMetric("Attendance");
+                        default -> System.out.println("Invalid metric choice.");
+                    }
+                }
+                case 2 -> progressManagement.viewAchievementsAndBadges();
+                case 3 -> {
+                    System.out.println("Returning to Client Menu...");
+                    return;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+    private static void addClientFeedback(Scanner scanner, FeedbackManagement feedbackManagement) {
+        System.out.println("=== Add Feedback ===");
+        System.out.print("Enter Program Name: ");
+        String programName = scanner.nextLine();
+
+        System.out.print("Enter Program Rating (1-5): ");
+        int rating = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Enter Program Review: ");
+        String review = scanner.nextLine();
+
+        System.out.print("Enter Suggestion for Improvement: ");
+        String suggestion = scanner.nextLine();
+
+        // إضافة التعليق
+        feedbackManagement.addFeedback(programName, rating, review, suggestion);
+        System.out.println("Feedback added successfully.");
+
+        // حفظ التعليق في الملف
+        String saveResult = feedbackManagement.saveFeedback();
+        System.out.println(saveResult);
+    }
+
+
 }
+

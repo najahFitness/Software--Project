@@ -1,5 +1,4 @@
-
-        package fts;
+package fts;
 
 import healthy.com.ProgramManagement;
 import io.cucumber.java.en.*;
@@ -19,11 +18,16 @@ public class ClientProgramExplorationAndEnrollment {
         programManagement = new ProgramManagement();
     }
 
-    @When("the client browses programs with difficulty level {string} and focus area {string}")
-    public void the_client_browses_programs_with_difficulty_level_and_focus_area(String difficultyLevel, String focusArea) {
+    @When("the client browses programs by difficulty level {string}")
+    public void the_client_browses_programs_by_difficulty_level(String difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
+        programManagement.filterProgramsByDifficulty(difficultyLevel);
+    }
+
+    @When("the client browses programs by focus area {string}")
+    public void the_client_browses_programs_by_focus_area(String focusArea) {
         this.focusArea = focusArea;
-        programManagement.filterPrograms(difficultyLevel, focusArea);
+        programManagement.filterProgramsByFocusArea(focusArea);
     }
 
     @When("the client selects a program titled {string} for enrollment")

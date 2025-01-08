@@ -1,61 +1,64 @@
 package healthy.com;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FeedbackManagement {
 
     private final List<String> feedbackList;
-    private final List<String> suggestionsList;
+    private final String filePath;
 
     public FeedbackManagement() {
         this.feedbackList = new ArrayList<>();
-        this.suggestionsList = new ArrayList<>();
+        // تحديد المسار داخل مجلد resources في test
+        this.filePath = "src/test/resources/Feedback.txt";
     }
 
-    // Add rating and review
-    public void addFeedback(String programName, int programRating, String programReview) {
-        String feedback = "Program: " + programName + ", Rating: " + programRating + " stars, Review: " + programReview;
+    // Add feedback (program name, rating, review, suggestion)
+    public void addFeedback(String programName, int programRating, String programReview, String suggestion) {
+        String feedback = "Program: " + programName + ", Rating: " + programRating + " stars, Review: " + programReview + ", Suggestion: " + suggestion;
         feedbackList.add(feedback);
     }
 
-    // Add improvement suggestion
-    public void addSuggestion(String programName, String suggestion) {
-        String fullSuggestion = "Program: " + programName + ", Suggestion: " + suggestion;
-        suggestionsList.add(fullSuggestion);
-    }
-
-    // Save feedback and suggestions
-    public String saveFeedbackAndSuggestions() {
-        StringBuilder result = new StringBuilder("Feedback and Suggestions saved successfully.\n");
-        result.append("Feedback:\n");
-        for (String feedback : feedbackList) {
-            result.append("- ").append(feedback).append("\n");
-        }
-        result.append("Suggestions:\n");
-        for (String suggestion : suggestionsList) {
-            result.append("- ").append(suggestion).append("\n");
+    // Save feedback to file
+    public String saveFeedback() {
+        StringBuilder result = new StringBuilder("Feedback saved successfully.\n");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            for (String feedback : feedbackList) {
+                writer.write(feedback);
+                writer.newLine();
+                result.append("- ").append(feedback).append("\n");
+            }
+            feedbackList.clear(); // تفريغ القائمة بعد الحفظ
+        } catch (IOException e) {
+            return "Error saving feedback: " + e.getMessage();
         }
         return result.toString();
     }
 
-    // Display all feedback and suggestions
+    // Read all feedback from file
+    public String readFeedbackFromFile() {
+        StringBuilder fileContents = new StringBuilder("=== All Feedback ===\n");
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fileContents.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            return "Error reading feedback file: " + e.getMessage();
+        }
+        return fileContents.toString();
+    }
+
+    // Display all feedback
     public String displayAllFeedback() {
-        StringBuilder result = new StringBuilder("Displaying all feedback and suggestions:\n");
-        if (feedbackList.isEmpty() && suggestionsList.isEmpty()) {
-            return "No feedback or suggestions submitted yet.";
+        StringBuilder result = new StringBuilder("Displaying all feedback:\n");
+        if (feedbackList.isEmpty()) {
+            return "No feedback submitted yet.";
         }
-        if (!feedbackList.isEmpty()) {
-            result.append("Feedback:\n");
-            for (String feedback : feedbackList) {
-                result.append("- ").append(feedback).append("\n");
-            }
-        }
-        if (!suggestionsList.isEmpty()) {
-            result.append("Suggestions:\n");
-            for (String suggestion : suggestionsList) {
-                result.append("- ").append(suggestion).append("\n");
-            }
+        for (String feedback : feedbackList) {
+            result.append("- ").append(feedback).append("\n");
         }
         return result.toString();
     }

@@ -19,14 +19,28 @@ public class ProgramManagement {
         programs.add("Beginner:Beginner Fitness Plan:General fitness:Saturday 9 AM");
     }
 
-    public void filterPrograms(String difficultyLevel, String focusArea) {
+    public void filterProgramsByDifficulty(String difficultyLevel) {
         filteredPrograms = new ArrayList<>();
         for (String program : programs) {
             String[] details = program.split(":");
-            if (details[0].equalsIgnoreCase(difficultyLevel) && details[2].equalsIgnoreCase(focusArea)) {
-                filteredPrograms.add(program);
+            if (details[0].equalsIgnoreCase(difficultyLevel)) {
+                filteredPrograms.add(details[1]); // إضافة اسم البرنامج فقط
             }
         }
+    }
+
+    public void filterProgramsByFocusArea(String focusArea) {
+        filteredPrograms = new ArrayList<>();
+        for (String program : programs) {
+            String[] details = program.split(":");
+            if (details[2].equalsIgnoreCase(focusArea)) {
+                filteredPrograms.add(details[1]); // إضافة اسم البرنامج فقط
+            }
+        }
+    }
+
+    public List<String> getFilteredPrograms() {
+        return filteredPrograms;
     }
 
     public String enrollInProgram(String programTitle) {
